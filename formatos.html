@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatos en Blanco | Área de Gestión de la Información (AGI)</title>
+    <style>
+        /* ====================================================
+        ESTILOS CSS (Mismos que las páginas de Inicio e Instructivos) 
+        ====================================================
+        */
+        :root {
+            --color-principal: #007BFF; /* Azul institucional */
+            --color-secundario: #dc3545; /* Rojo para los formatos (énfasis diferente) */
+            --color-fondo: #f8f9fa;
+            --color-texto: #333;
+            --color-nav-hover: #0056b3; 
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--color-principal);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        nav {
+            background-color: #343a40; 
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--color-nav-hover);
+        }
+
+        .container {
+            width: 85%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--color-principal);
+            border-bottom: 2px solid var(--color-principal);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        /* Estilos específicos para las tarjetas de formatos */
+        .manual-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .manual-card h3 {
+            margin: 0;
+            color: #495057;
+        }
+
+        /* Botón de descarga con color diferente para distinguirlo de instructivos */
+        .download-button {
+            background-color: var(--color-secundario); /* Rojo */
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .download-button:hover {
+            background-color: #bd2130; /* Rojo más oscuro */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Área de Gestión de la Información (AGI)</h1>
+        <p>Secretaría de Salud de Honduras</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="instructivos.html">Instructivos</a></li>
+            <li><a href="formatos.html">Formatos en Blanco</a></li> 
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <section id="lista-formatos">
+            <h2>Formatos y Formularios para Descargar</h2>
+            <p>A continuación, puede descargar los formularios oficiales en blanco. Por favor, asegúrese de completar todos los campos requeridos antes de la entrega.</p>
+            
+            <div class="manual-card">
+                <h3>Formato AT2R Mensual (PDF)</h3>
+                <a href="AT2r MENSUAL.pdf" class="download-button" download aria-label="Descargar Formato de AT2r Mensual">Descargar</a>
+            </div>
+
+             <div class="manual-card">
+                <h3>Transmisible (PDF)</h3>
+                <a href="TRANSMISIBLES MES FORMATO PDF.pdf" class="download-button" download aria-label="descargar Transmisible">Descargar</a>
+            </div>
+
+            <div class="manual-card">
+                <h3>Formato TB9 (PDF)</h3>
+                <a href="TB9.pdf" class="download-button" download aria-label="Descargar Formulario de TB9">Descargar PDF</a>
+            </div>
+            
+            <div class="manual-card">
+                <h3>Plantilla de Registro de Activos de Información (XLSX)</h3>
+                <a href="/archivos/registro-activos.xlsx" class="download-button" download aria-label="Descargar Plantilla de Registro de Activos de Información en formato XLSX">Descargar XLSX</a>
+            </div>
+            
+            <p style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
+                Para reportar errores en los formatos o solicitar nuevos documentos, contacte con el Área de Gestión de la Información.
+            </p>
+                    <img src="creacion.jpg" alt="">
+
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

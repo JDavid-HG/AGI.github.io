@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Gestión de la Información (AGI) | Secretaría de Salud de Honduras</title>
+    <style>
+        /* ==================================================== */
+        /* ESTILOS GLOBALES Y VARIABLES */
+        /* ==================================================== */
+        :root {
+            --color-principal: #007BFF; /* Azul institucional */
+            --color-secundario: #28a745; /* Verde para énfasis */
+            --color-fondo: #f8f9fa;
+            --color-texto: #333;
+            --color-nav-hover: #0056b3; /* Azul más oscuro para hover */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--color-principal);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* --- ESTILOS DE NAVEGACIÓN --- */
+        nav {
+            background-color: #343a40; 
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--color-nav-hover);
+        }
+
+        .container {
+            width: 85%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--color-principal);
+            border-bottom: 2px solid var(--color-principal);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE SECCIÓN --- */
+        ul.list-servicios {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.list-servicios li {
+            background: #e9ecef;
+            margin-bottom: 8px;
+            padding: 10px 15px;
+            border-left: 5px solid var(--color-secundario);
+            border-radius: 4px;
+        }
+
+        .mision, .vision {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .mision {
+            background-color: #d1ecf1; 
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .vision {
+            background-color: #d4edda; 
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        /* Estilos para la imagen en la sección de servicios (Mejora) */
+        #servicios img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Asegura que el margin: auto funcione */
+            margin: 20px auto 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        #contacto p a {
+            color: var(--color-principal);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Área de Gestión de la Información (AGI)</h1>
+        <p>Region Metropolitana DC</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="instructivos.html">Instructivos</a></li>
+            <li><a href="formatos.html">Formatos en Blanco</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+
+        <section id="introduccion">
+            <h2>Introducción</h2>
+            <p>El Área de Gestión de la Información (AGI) es el pilar tecnológico y analítico de la Secretaría de Salud. Nuestra misión es transformar los datos en conocimiento estratégico para garantizar la eficiencia, calidad y toma de decisiones oportuna en la prestación de servicios de salud a nivel nacional.</p>
+        </section>
+
+        <section id="mision-vision">
+            <h2>Misión y Visión</h2>
+            <div class="mision">
+                <h3>🎯 Misión</h3>
+                <p>Ser el **motor estratégico** de la Secretaría de Salud, garantizando la **disponibilidad, calidad, integridad y seguridad** de la información y los datos en salud. Esto se logra mediante el diseño, implementación y mantenimiento de sistemas y plataformas tecnológicas innovadoras que faciliten la **toma de decisiones informadas** y oportunas, optimizando la gestión de los servicios y la rectoría del sistema nacional de salud.</p>
+            </div>
+            <div class="vision">
+                <h3>🌟 Visión</h3>
+                <p>Convertirnos en el **referente de excelencia** en la gestión de la información en el sector público, liderando la **transformación digital** de la SESAL. Buscamos establecer un ecosistema de información **integrado, transparente y accesible** que empodere a todos los niveles de atención con datos fiables, contribuyendo directamente a la **mejora continua de la salud pública** y a la equidad en el acceso a los servicios de la población.</p>
+            </div>
+        </section>
+
+        <section id="servicios">
+            <h2>Nuestros Servicios Clave</h2>
+            <ul class="list-servicios">
+                <li>Gestión de Sistemas de Información en Salud (SIS).</li>
+                <li>Análisis y Explotación de Datos para la Vigilancia Epidemiológica.</li>
+                <li>Soporte Técnico y Mantenimiento de Infraestructura Tecnológica.</li>
+                <li>Capacitación y Asistencia Técnica a Usuarios de los Sistemas de Información.</li>
+                <li>Diseño e Implementación de Políticas de Seguridad de la Información.</li>
+            </ul>
+            <img src="creacion.jpg" alt="Equipo de trabajo del Área de Gestión de la Información" srcset="">
+        </section>
+
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <p>Para consultas sobre sistemas, datos o soporte técnico, por favor contáctenos:</p>
+            <p>📧 Correo Electrónico: **agimetrodc@gmail.com**</p>
+            <p>📞 Teléfono: **+504 2232-6064** (Centro de Salud Alonso Suazo)</p>
+            <p>📍 Dirección: **Blvd. Suyapa, 3QXW+3WV, Tegucigalpa, Francisco Morazán, Honduras.**</p>
+            <p>
+                <a href="https://maps.app.goo.gl/TUqD7hF7qQ9tK1tG9" target="_blank">Ver ubicación en Google Maps</a>
+            </p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

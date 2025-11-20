@@ -1,0 +1,134 @@
+/* ==================================================== */
+/* VARIABLES */
+/* ==================================================== */
+:root {
+    --color-principal: #007BFF; /* Azul institucional */
+    --color-secundario: #28a745; /* Verde para énfasis */
+    --color-fondo: #f8f9fa;
+    --color-texto: #333;
+    --color-nav-hover: #0056b3; /* Azul más oscuro para hover */
+}
+
+/* ==================================================== */
+/* GENERALES Y TIPOGRAFÍA */
+/* ==================================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--color-principal);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* ==================================================== */
+/* NAVEGACIÓN */
+/* ==================================================== */
+nav {
+    background-color: #343a40;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: var(--color-nav-hover);
+}
+
+/* ==================================================== */
+/* CONTENEDOR PRINCIPAL */
+/* ==================================================== */
+.container {
+    width: 85%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: var(--color-principal);
+    border-bottom: 2px solid var(--color-principal);
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+/* ==================================================== */
+/* ESTILOS DE INSTRUCTIVOS/FORMATOS (manual-card) */
+/* ==================================================== */
+.manual-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.manual-card h3 {
+    margin: 0;
+    color: #495057;
+}
+
+.download-button {
+    background-color: var(--color-secundario);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.download-button:hover {
+    background-color: #1e7e34;
+}
+
+/* ==================================================== */
+/* FOOTER */
+/* ==================================================== */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    font-size: 0.9em;
+    color: #777;
+}
