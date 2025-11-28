@@ -132,3 +132,79 @@ footer {
     font-size: 0.9em;
     color: #777;
 }
+/* ==================================================== */
+/* MENÚ HAMBURGUESA ANIMADO */
+/* ==================================================== */
+
+.menu-btn {
+    display: none;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+    padding: 15px 20px;
+    font-size: 24px;
+    color: white;
+    background-color: #343a40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+/* Líneas del icono */
+.menu-icon span {
+    width: 28px;
+    height: 3px;
+    background: white;
+    display: block;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+@media (max-width: 768px) {
+
+    /* Mostrar icono */
+    .menu-icon {
+        display: block;
+    }
+
+    /* Ocultar menú inicialmente */
+    nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #343a40;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Mostrar menú al activar el checkbox */
+    .menu-btn:checked ~ ul {
+        display: flex;
+    }
+
+    /* Animación: convertir en X */
+    .menu-btn:checked + .menu-icon span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-btn:checked + .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-btn:checked + .menu-icon span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    nav ul li {
+        border-bottom: 1px solid #444;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 12px;
+        font-size: 1.1em;
+    }
+}

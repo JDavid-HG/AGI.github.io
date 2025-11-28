@@ -4,33 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área de Gestión de la Información (AGI) | Secretaría de Salud de Honduras</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         /* ==================================================== */
         /* ESTILOS GLOBALES Y VARIABLES */
         /* ==================================================== */
         :root {
-            --color-principal: #007BFF; /* Azul institucional */
-            --color-secundario: #28a745; /* Verde para énfasis */
+            /* Color principal (Teal/Cian - Salud Digital) */
+            --color-principal: #17a2b8; 
+            /* Color secundario (Verde - Énfasis en Salud) */
+            --color-secundario: #28a745; 
             --color-fondo: #f8f9fa;
             --color-texto: #333;
-            --color-nav-hover: #0056b3; /* Azul más oscuro para hover */
+            --color-nav-hover: #138496; 
         }
 
+        /* ====================================================
+        FONDO DE PÁGINA CON REFERENCIA A LA MEDICINA (REVISADO)
+        ==================================================== */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--color-fondo);
             color: var(--color-texto);
             line-height: 1.6;
+            
+            /* Fondo base blanco */
+            background-color: #ffffff; 
+            
+            /* Patrón de Cruces Sanitarias (SVG Data URI más visible) */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23c0c0c0" opacity="0.15" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
+            background-repeat: repeat;
+        }
+
+        /* ====================================================
+        ANIMACIÓN DEL HEADER (BALANCEO FLOTANTE)
+        ==================================================== */
+        @keyframes float-wave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); } 
+            100% { transform: translateY(0); }
+        }
+
+        /* Nuevo: Animación para la alerta de construcción (sutilmente intermitente) */
+        @keyframes flash-construction {
+            0%, 100% { background-color: #fff3cd; border-color: #ffeeba; }
+            50% { background-color: #ffeeba; border-color: #fff3cd; }
         }
 
         header {
-            background-color: var(--color-principal);
+            background-color: var(--color-principal); 
             color: white;
             padding: 20px 0;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* APLICACIÓN DE LA ANIMACIÓN AL HEADER COMPLETO */
+            animation: float-wave 4s infinite alternate ease-in-out; 
         }
 
         header h1 {
@@ -40,11 +71,11 @@
 
         /* --- ESTILOS DE NAVEGACIÓN --- */
         nav {
-            background-color: #343a40; 
+            background-color: #343a40; /* Mantiene un color oscuro para contraste */
             padding: 10px 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
+        
         nav ul {
             list-style: none;
             padding: 0;
@@ -67,11 +98,36 @@
         }
 
         nav ul li a:hover {
-            background-color: var(--color-nav-hover);
+            background-color: var(--color-nav-hover); 
         }
+
+        /* ====================================================
+        ALERTA DE CONSTRUCCIÓN (NUEVO)
+        ==================================================== */
+        .construction-alert {
+            background-color: #fff3cd; /* Amarillo suave de advertencia */
+            color: #856404; /* Texto marrón oscuro */
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px; 
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
+            /* Aplicar la animación sutil */
+            animation: flash-construction 5s infinite alternate ease-in-out;
+        }
+
+        .construction-alert i {
+            margin-right: 10px;
+            color: #856404; 
+        }
+        /* ==================================================== */
 
         .container {
             width: 85%;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
             background-color: white;
@@ -80,8 +136,8 @@
         }
 
         h2 {
-            color: var(--color-principal);
-            border-bottom: 2px solid var(--color-principal);
+            color: var(--color-principal); 
+            border-bottom: 2px solid var(--color-principal); 
             padding-bottom: 10px;
             margin-top: 30px;
         }
@@ -96,7 +152,7 @@
             background: #e9ecef;
             margin-bottom: 8px;
             padding: 10px 15px;
-            border-left: 5px solid var(--color-secundario);
+            border-left: 5px solid var(--color-secundario); /* Borde Verde Médico */
             border-radius: 4px;
         }
 
@@ -122,17 +178,41 @@
         #servicios img {
             max-width: 100%;
             height: auto;
-            display: block; /* Asegura que el margin: auto funcione */
+            display: block; 
             margin: 20px auto 0 auto;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         #contacto p a {
-            color: var(--color-principal);
+            color: var(--color-principal); 
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* ====================================================
+        ESTILOS PARA EL MAPA EMBEBIDO
+        ==================================================== */
+        .map-container {
+            overflow: hidden; 
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 (para hacerlo responsive) */
+            position: relative;
+            height: 0;
+            margin-top: 20px;
+            border: 3px solid var(--color-principal); /* Borde para que se vea como miniatura */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra para resaltar */
+        }
+
+        .map-container iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            border: 0;
+        }
+        /* ==================================================== */
 
         footer {
             text-align: center;
@@ -149,6 +229,9 @@
     <header>
         <h1>Área de Gestión de la Información (AGI)</h1>
         <p>Region Metropolitana DC</p>
+        <p id="semana-actual" style="font-size: 1.1em; font-weight: 600; margin-top: 10px;">
+            <i class="fa-solid fa-calendar-week"></i> <strong>Semana Epidemiológica:</strong> <span style="font-weight: normal;">Cargando...</span>
+        </p>
     </header>
     
     <nav>
@@ -160,6 +243,10 @@
     </nav>
     <div class="container">
 
+        <div class="construction-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            ESTE SITIO ESTÁ EN CONSTRUCCIÓN. La información puede no estar completa o finalizada. ¡Disculpe las molestias!
+        </div>
         <section id="introduccion">
             <h2>Introducción</h2>
             <p>El Área de Gestión de la Información (AGI) es el pilar tecnológico y analítico de la Secretaría de Salud. Nuestra misión es transformar los datos en conocimiento estratégico para garantizar la eficiencia, calidad y toma de decisiones oportuna en la prestación de servicios de salud a nivel nacional.</p>
@@ -182,23 +269,31 @@
             <ul class="list-servicios">
                 <li>Gestión de Sistemas de Información en Salud (SIS).</li>
                 <li>Análisis y Explotación de Datos para la Vigilancia Epidemiológica.</li>
-                <li>Soporte Técnico y Mantenimiento de Infraestructura Tecnológica.</li>
                 <li>Capacitación y Asistencia Técnica a Usuarios de los Sistemas de Información.</li>
                 <li>Diseño e Implementación de Políticas de Seguridad de la Información.</li>
             </ul>
-            <img src="creacion.jpg" alt="Equipo de trabajo del Área de Gestión de la Información" srcset="">
         </section>
 
         <section id="contacto">
             <h2>Contacto</h2>
             <p>Para consultas sobre sistemas, datos o soporte técnico, por favor contáctenos:</p>
-            <p>📧 Correo Electrónico: **agimetrodc@gmail.com**</p>
-            <p>📞 Teléfono: **+504 2232-6064** (Centro de Salud Alonso Suazo)</p>
-            <p>📍 Dirección: **Blvd. Suyapa, 3QXW+3WV, Tegucigalpa, Francisco Morazán, Honduras.**</p>
-            <p>
-                <a href="https://maps.app.goo.gl/TUqD7hF7qQ9tK1tG9" target="_blank">Ver ubicación en Google Maps</a>
-            </p>
-        </section>
+            <p>📧 Correo Electrónico: agimetrodc@gmail.com</p>
+            <p>📞 Teléfono:</p>
+            <p>📍 Dirección: Blvd. Suyapa, 3QXW+3WV, Tegucigalpa, Francisco Morazán, Honduras.</p>
+            
+            <div class="map-container">
+                <iframe 
+                    src="https://maps.google.com/maps?q=Blvd.+Suyapa,+3QXW%2B3WV,+Tegucigalpa,+Francisco+Moraz%C3%A1n,+Honduras&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                    width="600" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Ubicación del Área de Gestión de la Información (AGI)">
+                </iframe>
+            </div>
+            </section>
 
     </div>
 
@@ -206,5 +301,41 @@
         <p>© 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
     </footer>
 
+    <script>
+        /**
+         * Función para calcular la Semana Epidemiológica (ISO 8601)
+         * Se basa en el principio de que la semana 1 es la que contiene el 4 de enero.
+         */
+        function calcularSemanaEpidemiologica() {
+            const today = new Date();
+            // 1. Crear una copia de la fecha para trabajar con UTC
+            const d = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+            
+            // 2. Establecer la fecha al jueves más cercano (centro de la semana ISO)
+            // d.getUTCDay() devuelve 0 (Domingo) a 6 (Sábado). (d.getUTCDay() || 7) mapea Domingo a 7.
+            // Esto asegura que la fecha se mueva a Jueves, el día central para determinar la semana ISO.
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            
+            // 3. Obtener el inicio del año (1 de Enero) del año del Jueves calculado
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            
+            // 4. Calcular el número de semanas completas (redondeo hacia arriba)
+            // (d - yearStart) = Diferencia en milisegundos
+            // / 86400000 = Diferencia en días
+            // / 7 = Diferencia en semanas
+            // + 1 = Para contar la semana actual
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            
+            // 5. Actualizar el elemento HTML
+            const elemento = document.getElementById('semana-actual');
+            if (elemento) {
+                // Reconstruir el contenido manteniendo el icono y el texto
+                elemento.innerHTML = `<i class="fa-solid fa-calendar-week"></i> <strong>Semana Epidemiológica:</strong> ${weekNo}`;
+            }
+        }
+
+        // Ejecutar la función cuando el documento HTML esté completamente cargado
+        document.addEventListener('DOMContentLoaded', calcularSemanaEpidemiologica);
+    </script>
 </body>
 </html>
