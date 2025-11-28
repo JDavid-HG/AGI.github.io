@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Usuarios SNVS | Área de Gestión de la Información (AGI)</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ==================================================== */
+        /* ESTILOS GLOBALES Y VARIABLES */
+        /* ==================================================== */
+        :root {
+            --color-principal: #17a2b8; /* Teal/Cian - Salud Digital */
+            --color-secundario: #28a745; /* Verde - Énfasis en Salud */
+            --color-peligro: #dc3545;
+            --color-fondo: #f8f9fa;
+            --color-texto: #333;
+            --color-nav-hover: #138496; 
+        }
+
+        /* ====================================================
+        FONDO Y BASE
+        ==================================================== */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--color-texto);
+            line-height: 1.6;
+            background-color: var(--color-fondo);
+            /* Patrón de Cruces Sanitarias sutil */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23e9ecef" opacity="0.8" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
+            background-repeat: repeat;
+        }
+
+        /* ====================================================
+        ANIMACIONES Y KEYFRAMES (RESTAURADOS)
+        ==================================================== */
+        @keyframes float-wave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-3px); } /* Sube 3px */
+            100% { transform: translateY(0); }
+        }
+        @keyframes critical-alert-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 5px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        /* ====================================================
+        HEADER Y NAVEGACIÓN
+        ==================================================== */
+        header {
+            background-color: var(--color-principal); 
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* ANIMACIÓN RESTAURADA: Esto hace que el H1 y todo el header se mueva */
+            animation: float-wave 4s infinite alternate ease-in-out; 
+            border-bottom: 5px solid var(--color-secundario);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        #semana-actual { 
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        #semana-actual span {
+            font-weight: normal;
+        }
+
+        /* Nav Bar Base */
+        nav {
+            background-color: #343a40; 
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: flex; 
+            justify-content: center;
+            flex-wrap: wrap; 
+        }
+        nav ul li {
+            margin: 5px 15px; 
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+        }
+        nav ul li a:hover {
+            background-color: var(--color-nav-hover); 
+            transform: translateY(-2px);
+        }
+
+        /* ====================================================
+        RESPONSIVIDAD DE NAVEGACIÓN (Móviles)
+        ==================================================== */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column; 
+                align-items: center; 
+            }
+            nav ul li {
+                width: 90%; 
+                margin: 5px 0;
+            }
+            nav ul li a {
+                display: block; 
+                width: 100%;
+            }
+            header h1 {
+                font-size: 2em; 
+            }
+        }
+
+
+        /* ====================================================
+        CONTENEDOR PRINCIPAL
+        ==================================================== */
+        main.container { /* Cambio de div a main */
+            width: 90%;
+            max-width: 1000px; 
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Alerta de Construcción */
+        .construction-alert {
+            background-color: #fff3cd; 
+            color: #856404; 
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px; 
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* ====================================================
+        ESTILOS ESPECÍFICOS DEL FORMULARIO E IFRAME
+        ==================================================== */
+        #formulario h2 {
+            color: var(--color-principal); 
+            border-bottom: 2px solid var(--color-secundario); 
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        #formulario h2 i {
+            margin-right: 10px;
+        }
+        
+        .form-description {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        /* Contenedor del Iframe para darle estilo y espacio */
+        .iframe-container {
+            border: 2px solid var(--color-principal);
+            border-radius: 10px;
+            overflow: hidden; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo del Iframe que incrusta el formulario de Google */
+        .iframe-snvs {
+            width: 100%;
+            min-height: 1000px; 
+            height: auto; 
+            border: none;
+            display: block;
+        }
+
+        /* Estilos de Contacto */
+        #contacto h2 {
+            color: var(--color-principal); 
+            border-bottom: 2px solid var(--color-principal); 
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        #contacto p i {
+            width: 25px;
+            text-align: center;
+            color: var(--color-secundario); 
+        }
+
+        #contacto p a {
+            color: var(--color-principal); 
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #contacto p a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #777;
+            background-color: #fff; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-laptop-medical"></i> Área de Gestión de la Información (AGI)</h1>
+        <p>Secretaría de Salud de Honduras | Solicitudes SNVS</p>
+        <p id="semana-actual">
+            <i class="fa-solid fa-calendar-week"></i> <strong>Semana Epidemiológica:</strong> <span>Cargando...</span>
+        </p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+            <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
+            <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
+            <li><a href="#formulario"><i class="fa-solid fa-users"></i> Solicitud SNVS</a></li>
+        </ul>
+    </nav>
+    
+    <main class="container">
+
+        <div class="construction-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            ESTE SITIO ESTÁ EN CONSTRUCCIÓN. El contenido es funcional, pero el diseño final está sujeto a cambios.
+        </div>
+
+        <section id="formulario">
+            <h2><i class="fa-solid fa-user-plus"></i> Solicitud de Usuario SNVS y Restablecimiento de Contraseña</h2>
+            
+            <p class="form-description">
+                Este formulario está dirigido **exclusivamente al personal de establecimientos de salud** (estadígrafo o persona designada). Llene la sección correspondiente a su necesidad.
+            </p>
+
+            <div class="iframe-container">
+                <iframe 
+                    class="iframe-snvs"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSe1EQmK6I8WyZw3JDl-KME4r6X48W4RSSd5wv2Nrx7R5dKoSQ/viewform?embedded=true" 
+                    allowfullscreen
+                    loading="lazy" 
+                    title="Formulario de Solicitud de Usuarios SNVS">
+                    Cargando el formulario de Google...
+                </iframe>
+            </div>
+        </section>
+
+        <section id="contacto">
+            <h2><i class="fa-solid fa-headset"></i> Soporte y Contacto</h2>
+            <p>Si experimenta problemas con el envío del formulario o tiene consultas:</p>
+            <p>
+                <i class="fa-solid fa-envelope"></i> Correo Electrónico AGI: <a href="mailto:agimetrodc@gmail.com">agimetrodc@gmail.com</a>
+            </p>
+            <p><i class="fa-solid fa-whatsapp"></i> Contacto de Soporte: (Número de WhatsApp que indicó el formulario)</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><i class="fa-regular fa-copyright"></i> 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        /**
+         * Función para calcular la Semana Epidemiológica (ISO 8601)
+         */
+        function calcularSemanaEpidemiologica() {
+            const today = new Date();
+            const d = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+            // Ajustar al jueves de la semana
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            // Calcular el número de semana
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            
+            const elemento = document.getElementById('semana-actual');
+            if (elemento) {
+                // Actualiza solo el <span> con el número
+                elemento.querySelector('span').textContent = weekNo;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', calcularSemanaEpidemiologica);
+    </script>
+</body>
+</html>
