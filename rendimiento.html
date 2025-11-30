@@ -9,7 +9,7 @@
 
   <style>
     /* ==================================================== */
-    /* ESTILOS GLOBALES Y VARIABLES (Coherentes con la Landing Page) */
+    /* ESTILOS GLOBALES Y VARIABLES */
     /* ==================================================== */
     :root {
         --color-principal: #17a2b8; /* Teal/Cian - Salud Digital */
@@ -19,10 +19,11 @@
         --color-texto: #333;
         --color-nav-bg: #343a40; /* Fondo de navegación oscuro */
         --color-nav-hover: #138496; /* Hover de navegación principal */
+        --color-warning: #ffc107; /* Amarillo para advertencias/construcción */
     }
 
     /* ====================================================
-    FONDO Y BASE (Coherentes con la Landing Page)
+    FONDO Y BASE 
     ==================================================== */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,37 +33,60 @@
         line-height: 1.6;
         background-color: var(--color-fondo);
         
-        /* Patrón de Cruces Sanitarias sutil (Igual que la Landing Page) */
+        /* Patrón de Cruces Sanitarias sutil */
         background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23e9ecef" opacity="0.8" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
         background-repeat: repeat;
     }
 
     /* ====================================================
-    HEADER (Coherente con la Landing Page, ajustado para el visor)
+    ANIMACIONES Y KEYFRAMES 
+    ==================================================== */
+    @keyframes float-wave {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-3px); } 
+        100% { transform: translateY(0); }
+    }
+
+    @keyframes critical-alert-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        70% { box-shadow: 0 0 0 5px rgba(220, 53, 69, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+    }
+
+    /* ====================================================
+    HEADER 
     ==================================================== */
     header {
         background-color: var(--color-principal); 
         color: white;
-        padding: 20px 0;
         text-align: center;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         animation: float-wave 4s infinite alternate ease-in-out; 
         border-bottom: 5px solid var(--color-secundario); 
+        
+        /* Configuración de Flexbox para el centrado */
         display: flex; 
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-between; 
         padding: 15px 20px; 
     }
     .header-content { 
-        text-align: left;
+        text-align: center;
         flex-grow: 1; 
+        padding: 0 10px; 
+    }
+    .spacer { 
+        width: 150px; 
+        min-width: 150px;
     }
     header h1 {
         margin: 0;
         font-size: 1.8em; 
         display: flex;
         align-items: center;
+        justify-content: center; 
         gap: 10px;
+        white-space: nowrap; 
     }
     header h1 i {
         font-size: 1.2em;
@@ -71,12 +95,15 @@
         margin: 5px 0 0;
         font-size: 1em;
         opacity: 0.9;
+        white-space: nowrap; 
     }
 
     /* BOTONES DE ACCIÓN (Abrir en Sheets) */
     .actions {
         display: flex;
         gap: 8px;
+        min-width: 150px; 
+        justify-content: flex-end;
     }
     .btn {
         background: var(--color-secundario); 
@@ -128,6 +155,53 @@
         background-color: var(--color-principal); 
     }
 
+    /* ====================================================
+    BLOQUES DE ALERTA/NOTIFICACIÓN
+    ==================================================== */
+    .alert-container {
+        max-width: 1200px;
+        margin: 30px auto 10px; /* Separación superior y menos inferior */
+        padding: 0 20px;
+    }
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    /* Alerta de Construcción */
+    .under-construction-alert {
+        background-color: #fff3cd; /* Fondo amarillo suave */
+        color: #856404; /* Texto marrón/oscuro */
+        border: 1px solid var(--color-warning);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .under-construction-alert i {
+        margin-right: 10px;
+    }
+
+    /* Alerta Crítica (mantenida) */
+    .critical-alert {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 2px solid var(--color-peligro);
+        box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+        animation: critical-alert-pulse 2s infinite;
+    }
+    .critical-alert strong {
+        color: var(--color-peligro);
+    }
+    .critical-alert i {
+        margin-right: 15px;
+        font-size: 1.5em;
+        vertical-align: middle;
+    }
+    /* ==================================================== */
+
+
     /* CONTENIDO PRINCIPAL */
     main {
         padding:18px;
@@ -141,7 +215,7 @@
         box-shadow:0 6px 18px rgba(11,12,20,0.04);
     }
     
-    /* IFRAME WRAPPER - Define el tamaño del recuadro (Relación 16:9) */
+    /* IFRAME WRAPPER */
     .embed-wrap {
         position:relative;
         padding-top:56.25%; 
@@ -171,16 +245,7 @@
     }
 
     /* ====================================================
-    ANIMACIONES
-    ==================================================== */
-    @keyframes float-wave {
-        0% { transform: translateY(0); }
-        50% { transform: translateY(-3px); } 
-        100% { transform: translateY(0); }
-    }
-
-    /* ====================================================
-    RESPONSIVE (Ajustes para móviles)
+    RESPONSIVE 
     ==================================================== */
     @media (max-width: 768px) { 
         header {
@@ -193,24 +258,16 @@
             width: 100%;
             margin-bottom: 15px;
         }
+        .spacer {
+            display: none;
+        }
         header h1 {
             font-size: 1.5em; 
             justify-content: center; 
         }
-        header p.lead {
-            font-size: 0.9em;
-        }
         .actions {
             width: 100%;
             justify-content: center; 
-        }
-        .btn {
-            padding: 10px 15px;
-            font-size: 13px;
-        }
-
-        nav ul {
-            text-align: center;
         }
         nav ul li {
             display: block; 
@@ -223,35 +280,30 @@
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        nav ul li:last-child a {
-            border-bottom: none;
+        .alert-container {
+            margin: 15px auto 5px;
+            padding: 0 10px;
         }
-
-        main {
-            padding: 10px;
-            margin: 10px auto;
+        .alert {
+             padding: 15px;
+             font-size: 0.9em;
         }
-        .card {
-            padding: 10px;
-        }
-        .embed-wrap {
-            padding-top: 75%; 
-        }
-    }
-
-    @media (max-width: 480px) { 
-        header h1 {
-            font-size: 1.3em;
+        .critical-alert i {
+            margin-right: 10px;
+            font-size: 1.2em;
         }
     }
   </style>
 </head>
 <body>
   <header>
+    <div class="spacer"></div> 
+    
     <div class="header-content">
       <h1><i class="fa-solid fa-user-doctor"></i> Visor: Rendimiento Médico (AGI)</h1>
       <p class="lead">Monitoreo de la productividad del personal de salud en la Región Metropolitana DC.</p>
     </div>
+    
     <div class="actions">
       <a class="btn" href="https://docs.google.com/spreadsheets/d/1TH6KE5Ly__naWEbJCbUvB8p8cFduKWnQx9qx2Wdem3Y/edit?usp=sharing" target="_blank" rel="noopener">
         <i class="fa-solid fa-up-right-from-square"></i> Abrir en Sheets
@@ -268,6 +320,20 @@
         <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
     </ul>
   </nav>
+
+  <div class="alert-container">
+      <div class="alert under-construction-alert">
+          <i class="fa-solid fa-tools"></i> 
+          SITIO EN CONSTRUCCIÓN: Algunas secciones, enlaces y funcionalidades están en desarrollo y podrían estar sujetas a cambios.
+      </div>
+
+      <div class="alert critical-alert">
+        <i class="fa-solid fa-circle-exclamation"></i> 
+        ADVERTENCIA CRÍTICA: PROHIBIDA LA ALTERACIÓN DE DOCUMENTOS OFICIALES <br>
+        Recuerde: La alteración de archivos PDF oficiales está estrictamente prohibida y puede constituir un delito de falsificación o fraude según la ley hondureña.
+      </div>
+  </div>
+
 
   <main>
     <section class="card">
