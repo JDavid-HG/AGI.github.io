@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visor de Datos | Rendimiento Médico AGI</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ==================================================== */
+    /* ESTILOS GLOBALES Y VARIABLES (Coherentes con la Landing Page) */
+    /* ==================================================== */
+    :root {
+        --color-principal: #17a2b8; /* Teal/Cian - Salud Digital */
+        --color-secundario: #28a745; /* Verde - Énfasis en Salud */
+        --color-peligro: #dc3545; /* Rojo para alertas críticas */
+        --color-fondo: #f8f9fa;
+        --color-texto: #333;
+        --color-nav-bg: #343a40; /* Fondo de navegación oscuro */
+        --color-nav-hover: #138496; /* Hover de navegación principal */
+    }
+
+    /* ====================================================
+    FONDO Y BASE (Coherentes con la Landing Page)
+    ==================================================== */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: var(--color-texto);
+        line-height: 1.6;
+        background-color: var(--color-fondo);
+        
+        /* Patrón de Cruces Sanitarias sutil (Igual que la Landing Page) */
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23e9ecef" opacity="0.8" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
+        background-repeat: repeat;
+    }
+
+    /* ====================================================
+    HEADER (Coherente con la Landing Page, ajustado para el visor)
+    ==================================================== */
+    header {
+        background-color: var(--color-principal); 
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        animation: float-wave 4s infinite alternate ease-in-out; 
+        border-bottom: 5px solid var(--color-secundario); 
+        display: flex; 
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px; 
+    }
+    .header-content { 
+        text-align: left;
+        flex-grow: 1; 
+    }
+    header h1 {
+        margin: 0;
+        font-size: 1.8em; 
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    header h1 i {
+        font-size: 1.2em;
+    }
+    header p.lead {
+        margin: 5px 0 0;
+        font-size: 1em;
+        opacity: 0.9;
+    }
+
+    /* BOTONES DE ACCIÓN (Abrir en Sheets) */
+    .actions {
+        display: flex;
+        gap: 8px;
+    }
+    .btn {
+        background: var(--color-secundario); 
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: background 0.2s, box-shadow 0.2s;
+        white-space: nowrap; 
+    }
+    .btn:hover {
+        background: #218838; 
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* --- NAVEGACIÓN PRINCIPAL --- */
+    nav {
+        background-color: var(--color-nav-bg); 
+        padding: 10px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline;
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: background-color 0.3s, transform 0.2s;
+        display: inline-block;
+        font-size: 14px;
+    }
+    nav ul li a:hover {
+        background-color: var(--color-nav-hover); 
+        transform: translateY(-2px);
+    }
+    .nav-active {
+        background-color: var(--color-principal); 
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    main {
+        padding:18px;
+        max-width:1200px;
+        margin:18px auto;
+    }
+    .card {
+        background:var(--card);
+        border-radius:12px;
+        padding:12px 20px;
+        box-shadow:0 6px 18px rgba(11,12,20,0.04);
+    }
+    
+    /* IFRAME WRAPPER - Define el tamaño del recuadro (Relación 16:9) */
+    .embed-wrap {
+        position:relative;
+        padding-top:56.25%; 
+        overflow:hidden;
+        border-radius:8px;
+        border:3px solid var(--color-principal); 
+        background:white;
+        box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    }
+    iframe {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        border:0;
+    }
+    
+    footer {
+        max-width:1200px;
+        margin:18px auto;
+        padding:20px; 
+        color:#777; 
+        font-size:0.9em;
+        text-align: center;
+        border-top: 1px solid #ddd; 
+    }
+
+    /* ====================================================
+    ANIMACIONES
+    ==================================================== */
+    @keyframes float-wave {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-3px); } 
+        100% { transform: translateY(0); }
+    }
+
+    /* ====================================================
+    RESPONSIVE (Ajustes para móviles)
+    ==================================================== */
+    @media (max-width: 768px) { 
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px;
+        }
+        .header-content {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        header h1 {
+            font-size: 1.5em; 
+            justify-content: center; 
+        }
+        header p.lead {
+            font-size: 0.9em;
+        }
+        .actions {
+            width: 100%;
+            justify-content: center; 
+        }
+        .btn {
+            padding: 10px 15px;
+            font-size: 13px;
+        }
+
+        nav ul {
+            text-align: center;
+        }
+        nav ul li {
+            display: block; 
+            margin: 0;
+        }
+        nav ul li a {
+            padding: 12px 10px;
+            width: 100%;
+            box-sizing: border-box; 
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav ul li:last-child a {
+            border-bottom: none;
+        }
+
+        main {
+            padding: 10px;
+            margin: 10px auto;
+        }
+        .card {
+            padding: 10px;
+        }
+        .embed-wrap {
+            padding-top: 75%; 
+        }
+    }
+
+    @media (max-width: 480px) { 
+        header h1 {
+            font-size: 1.3em;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1><i class="fa-solid fa-user-doctor"></i> Visor: Rendimiento Médico (AGI)</h1>
+      <p class="lead">Monitoreo de la productividad del personal de salud en la Región Metropolitana DC.</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="https://docs.google.com/spreadsheets/d/1TH6KE5Ly__naWEbJCbUvB8p8cFduKWnQx9qx2Wdem3Y/edit?usp=sharing" target="_blank" rel="noopener">
+        <i class="fa-solid fa-up-right-from-square"></i> Abrir en Sheets
+      </a>
+    </div>
+  </header>
+  
+  <nav>
+    <ul>
+        <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+        <li><a href="visor_datos.html" class="nav-active"><i class="fa-solid fa-table-cells"></i> Rendimiento Médico</a></li>
+        <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
+        <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
+        <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="card">
+      <h2 style="margin:0 0 8px 0; color: var(--color-principal); font-size: 1.5em;"><i class="fa-solid fa-chart-bar"></i> Área de Trabajo (Rendimiento Médico)</h2>
+      <div class="embed-wrap">
+        <iframe
+          src="https://docs.google.com/spreadsheets/d/1TH6KE5Ly__naWEbJCbUvB8p8cFduKWnQx9qx2Wdem3Y/edit?usp=sharing&embedded=true&widget=true&headers=false&chrome=false&gid=0"
+          loading="lazy"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><i class="fa-regular fa-copyright"></i> <span id="current-year"></span> Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
