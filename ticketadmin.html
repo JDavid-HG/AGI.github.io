@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* Estilos generales */
+        /* Estilos generales (Mantenidos del código anterior) */
         :root {
             --color-principal: #17a2b8; /* Cian/Teal */
             --color-secundario: #28a745; /* Verde Salud */
@@ -23,10 +23,10 @@
             display: flex; 
             flex-direction: column; 
             min-height: 100vh;
-            color: #fff; /* Texto blanco en el body */
+            color: #fff;
         }
 
-        /* --- Estilos para la barra de navegación superior (Navbar) --- */
+        /* --- Estilos de la barra de navegación y el resto del layout --- */
         .navbar {
             background-color: #000;
             padding: 0;
@@ -55,7 +55,6 @@
         .navbar li a i {
             margin-right: 8px;
         }
-        /* El enlace activo (Administración en este caso) */
         .navbar li .nav-active {
             background-color: var(--color-secundario); 
             font-weight: bold;
@@ -76,9 +75,8 @@
             margin: 20px auto;
         }
         
-        /* Estilos de las cajas de administración */
         .admin-box {
-            background: #495057; /* Un gris más claro que el fondo */
+            background: #495057;
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -161,11 +159,10 @@
             background-color: #5a6268;
         }
 
-        /* Ajustes de Contador */
+        /* Ajustes de Contador y Botones de Peligro (mantenidos) */
         #contador-status {
             grid-column: 1 / 2;
         }
-
         .status-info {
             margin-top: 15px;
             padding: 10px;
@@ -173,8 +170,6 @@
             border-radius: 5px;
             border-left: 5px solid var(--color-secundario);
         }
-
-        /* Botón de Reinicio (Peligro) */
         .btn-danger {
             background-color: var(--color-peligro);
         }
@@ -182,34 +177,22 @@
             background-color: #c82333;
         }
 
-        /* ============================================== */
-        /* --- MEDIA QUERY para RESPONSIVE DESIGN (Móvil) --- */
-        /* ============================================== */
+        /* Media Query para Responsive (Mantenido) */
         @media (max-width: 768px) {
-            /* Layout de Administración */
             .admin-grid {
-                grid-template-columns: 1fr; /* Una columna en móvil */
+                grid-template-columns: 1fr; 
                 margin: 0;
             }
             #llamada-control, #cola-espera, #contador-status {
-                grid-column: 1 / 2; /* Ocupan todo el ancho */
+                grid-column: 1 / 2;
             }
-
-            /* Navbar Móvil */
             .navbar ul {
                 flex-wrap: wrap; 
                 justify-content: center;
             }
             .navbar li {
-                flex-basis: 33.33%; 
-                text-align: center;
+                flex-basis: 33.33%;
             }
-            .navbar li a {
-                padding: 10px 5px; 
-                font-size: 0.9em;
-            }
-            
-            /* Ocultar el texto de los enlaces y dejar solo el icono en móvil */
             .navbar li a span {
                 display: none;
             }
@@ -246,6 +229,10 @@
             <button id="btnLlamar" class="admin-button" onclick="llamarSiguienteTicket()">
                 <i class="fa-solid fa-bullhorn"></i> LLAMAR SIGUIENTE TURNO
             </button>
+
+            <button class="admin-button" onclick="abrirVisorEnPestana()">
+                <i class="fa-solid fa-eye"></i> ABRIR VISOR DE PÚBLICO
+            </button>
         </div>
 
         <div id="cola-espera" class="admin-box">
@@ -273,26 +260,32 @@
 </div>
 
 <script>
-// --- CONSTANTES DE LOCALSTORAGE (Compartidas con la toma de turno) ---
+// --- CONSTANTES DE LOCALSTORAGE ---
 const CLAVE_COLA = 'agiColaTickets';
 const CLAVE_CONTADOR_TOTAL = 'agiContadorTotal'; 
 
+// Nombre de la ventana de visualización (para evitar abrir múltiples pestañas)
+const NOMBRE_VENTANA_VISOR = 'AGITicketVisor';
+
 // ====================================================
-// FUNCIÓN PRINCIPAL: LLAMAR/DESPACHAR EL SIGUIENTE TICKET
+// FUNCIÓN PRINCIPAL MODIFICADA: LLAMAR/DESPACHAR Y ABRIR VISOR
 // ====================================================
 function llamarSiguienteTicket() {
     let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
     
     if (colaTickets.length > 0) {
-        // 1. Quitar el primer elemento de la cola
         const ticketLlamado = colaTickets.shift(); 
         
-        // 2. Guardar la cola actualizada
         localStorage.setItem(CLAVE_COLA, JSON.stringify(colaTickets));
         
-        // 3. Mostrar feedback visual
+        // 1. Mostrar feedback visual en el panel de admin
         document.getElementById('ticketLlamadoDisplay').textContent = ticketLlamado;
         document.getElementById('ticketLlamadoMessage').innerHTML = `<i class="fa-solid fa-check"></i> Ticket **${ticketLlamado}** ha sido llamado a atención.`;
+
+        // 2. ABRIR EL VISOR EN UNA PESTAÑA NUEVA
+        const urlVisor = `visor_ticket.html?ticket=${ticketLlamado}&modulo=AGI`;
+        window.open(urlVisor, NOMBRE_VENTANA_VISOR); // Abre/actualiza la ventana con el ticket
+        
     } else {
         document.getElementById('ticketLlamadoDisplay').textContent = '---';
         document.getElementById('ticketLlamadoMessage').innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i> No hay tickets pendientes en la cola.';
@@ -302,12 +295,24 @@ function llamarSiguienteTicket() {
 }
 
 // ====================================================
+// FUNCIÓN AUXILIAR: ABRIR EL VISOR MANUALMENTE
+// ====================================================
+function abrirVisorEnPestana() {
+    // Si la cola está vacía, muestra un mensaje por defecto o el último llamado.
+    const ultimoLlamado = document.getElementById('ticketLlamadoDisplay').textContent;
+    const ticketParam = ultimoLlamado === '---' ? 'Bienvenido' : ultimoLlamado;
+
+    const urlVisor = `visor_ticket.html?ticket=${ticketParam}&modulo=AGI`;
+    window.open(urlVisor, NOMBRE_VENTANA_VISOR);
+}
+
+// ====================================================
 // FUNCIÓN: REINICIAR EL SISTEMA
 // ====================================================
 function resetearCola() {
     if (confirm("🚨 ADVERTENCIA: ¿Está seguro de que desea reiniciar el contador de turnos y vaciar toda la cola? Esta acción no se puede deshacer y afectará a la página de toma de turno.")) {
-        localStorage.removeItem(CLAVE_COLA); // Vacía la lista de tickets
-        localStorage.setItem(CLAVE_CONTADOR_TOTAL, '0'); // Reinicia el contador secuencial a 0
+        localStorage.removeItem(CLAVE_COLA); 
+        localStorage.setItem(CLAVE_CONTADOR_TOTAL, '0');
         actualizarVistaAdmin();
         document.getElementById('ticketLlamadoDisplay').textContent = 'T-001';
         document.getElementById('ticketLlamadoMessage').innerHTML = '<i class="fa-solid fa-redo"></i> Sistema Reiniciado. El próximo ticket será T-001.';
@@ -315,7 +320,7 @@ function resetearCola() {
 }
 
 // ====================================================
-// FUNCIÓN: ACTUALIZAR VISTA DE ADMINISTRACIÓN
+// FUNCIÓN: ACTUALIZAR VISTA DE ADMINISTRACIÓN (mantenida)
 // ====================================================
 function actualizarVistaAdmin() {
     let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
@@ -323,7 +328,7 @@ function actualizarVistaAdmin() {
     
     // --- 1. Actualizar lista de cola ---
     const listaCola = document.getElementById('listaCola');
-    listaCola.innerHTML = ''; // Limpiar lista
+    listaCola.innerHTML = ''; 
     
     if (colaTickets.length > 0) {
         colaTickets.forEach(ticket => {
@@ -351,10 +356,9 @@ function actualizarVistaAdmin() {
 // INICIALIZACIÓN Y AUTO-REFRESCO
 // ====================================================
 window.onload = actualizarVistaAdmin;
-
-// Esto asegura que la vista de administrador se actualice si alguien saca un ticket en otra pestaña.
 setInterval(actualizarVistaAdmin, 3000); 
 </script>
 
 </body>
 </html>
+
