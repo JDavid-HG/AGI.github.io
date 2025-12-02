@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TICKET AGI | Obtener Turno Secuencial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Estilos generales */
+        :root {
+            --color-principal: #17a2b8; /* Cian/Teal */
+            --color-secundario: #28a745; /* Verde Salud */
+            --color-peligro: #dc3545; /* Rojo */
+            --color-fondo: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; background-color: var(--color-principal); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+        }
+
+        /* --- Estilos para la barra de navegación superior (Navbar) --- */
+        .navbar {
+            background-color: #000; /* Fondo oscuro para contraste */
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: flex-start;
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .navbar li a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .navbar li a:hover {
+            background-color: var(--color-principal); 
+        }
+        .navbar li a i {
+            margin-right: 8px;
+        }
+        /* El enlace activo ahora usa el color secundario (verde) */
+        .navbar li .nav-active {
+            background-color: var(--color-secundario); 
+            font-weight: bold;
+        }
+        
+        /* --- Contenido Principal (donde va la caja del ticket) --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        /* Estilos de la caja de turno (box) */
+        .box {
+            background: white; padding: 40px; border-radius: 15px; width: 80%;
+            max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-top: 10px solid var(--color-secundario);
+        }
+        h1 {
+            color: var(--color-secundario); font-size: 2.2em; margin-bottom: 30px;
+        }
+        button {
+            padding: 20px 30px; background-color: var(--color-principal); color: white;
+            border: none; border-radius: 8px; font-size: 1.5em; font-weight: bold;
+            cursor: pointer; transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #138496; transform: scale(1.02);
+        }
+        
+        /* Estilos para el Ticket (Visualización) */
+        #ticketDisplay {
+            margin-top: 30px; padding: 20px; background-color: #fff;
+            border: 1px solid #ccc; border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace; color: #333; text-align: center;
+            position: relative; animation: fadein 0.5s ease-out;
+        }
+        #ticketDisplay::before {
+            content: '...'; position: absolute; top: -10px; left: 0;
+            width: 100%; font-size: 2em; line-height: 0; color: #ccc;
+            overflow: hidden;
+        }
+        #ticketNumberUser {
+            font-size: 5em; font-weight: bold; color: var(--color-peligro);
+            margin: 10px 0;
+        }
+        #ticketHeader {
+            font-size: 1.2em; color: var(--color-secundario);
+            border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px;
+        }
+        @keyframes fadein {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <ul>
+        <li><a href="toma_de_turno.html" class="nav-active"><i class="fa-solid fa-ticket"></i> Toma de Turno</a></li> 
+        <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+        <li><a href="visor_datos.html"><i class="fa-solid fa-table-cells"></i> Rendimiento Médico</a></li>
+        <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
+        <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
+        <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
+    </ul>
+</nav>
+
+<div class="main-content">
+    <div class="box">
+        <h1><i class="fa-solid fa-hand-point-up"></i> TÓMA DE TURNO AGI</h1>
+        <p>Presione el botón para obtener su número de turno de atención. El sistema es **secuencial** (T-001 a T-100).</p>
+        
+        <button onclick="generarNuevoTicket()">
+            <i class="fa-solid fa-file-export"></i> OBTENER MI TURNO
+        </button>
+        
+        <div id="ticketDisplay" style="display: none;">
+            <div id="ticketHeader">AGENCIA DE GESTIÓN INTEGRAL</div>
+            <p style="font-size: 1.5em; margin: 0;">SU TURNO ES:</p>
+            <span id="ticketNumberUser">---</span>
+            <p id="ticketMessageUser">PASE AL ÁREA DE ATENCIÓN</p>
+            <p id="ticketInfoUser"></p>
+            <p style="font-size: 0.9em; margin-top: 20px;">-- Presente este ticket al ser llamado --</p>
+        </div>
+        
+        <p id="colaStatusInicial"></p>
+    </div>
+</div>
+
+<script>
+// --- CONSTANTES DE LOCALSTORAGE (Sincronización) ---
+const CLAVE_COLA = 'agiColaTickets';
+const CLAVE_CONTADOR_TOTAL = 'agiContadorTotal'; 
+
+// ====================================================
+// FUNCIÓN AUXILIAR: GENERAR CÓDIGO SECUENCIAL
+// ====================================================
+function generarCodigoSecuencial() {
+    let contador = parseInt(localStorage.getItem(CLAVE_CONTADOR_TOTAL) || '0', 10);
+    
+    contador++;
+    if (contador > 100) {
+        contador = 1; 
+    }
+    
+    const numeroFormateado = String(contador).padStart(3, '0');
+    
+    localStorage.setItem(CLAVE_CONTADOR_TOTAL, contador);
+    
+    return "T-" + numeroFormateado;
+}
+
+// ====================================================
+// FUNCIÓN PRINCIPAL: GENERAR TICKET Y GUARDAR EN COLA
+// ====================================================
+function generarNuevoTicket() {
+    const nuevoTicket = generarCodigoSecuencial();
+    
+    let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
+    
+    colaTickets.push(nuevoTicket);
+
+    localStorage.setItem(CLAVE_COLA, JSON.stringify(colaTickets));
+    
+    // 5. Mostrar feedback visualmente
+    const ticketDisplay = document.getElementById('ticketDisplay');
+    const ticketNumber = document.getElementById('ticketNumberUser');
+    const ticketInfo = document.getElementById('ticketInfoUser');
+    
+    document.getElementById('colaStatusInicial').style.display = 'none';
+
+    ticketNumber.textContent = nuevoTicket;
+    ticketInfo.innerHTML = `<i class="fa-solid fa-people-arrows"></i> Personas esperando: ${colaTickets.length - 1}<br> Hora: ${new Date().toLocaleTimeString()}`;
+    
+    ticketDisplay.style.display = 'block';
+
+    // Opcional: Simulación de impresión
+    setTimeout(() => {
+        // window.print();
+    }, 500);
+    
+    actualizarVistaGenerador(); // Asegurar que el mensaje inicial se actualice
+}
+
+// ====================================================
+// INICIALIZACIÓN
+// ====================================================
+function actualizarVistaGenerador() {
+    let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
+    const estadoInicial = document.getElementById('colaStatusInicial');
+    let contador = parseInt(localStorage.getItem(CLAVE_CONTADOR_TOTAL) || '0', 10);
+    
+    // El próximo turno a generar es el contador actual + 1 (con reinicio)
+    const proximoTurno = String(contador % 100 + 1).padStart(3, '0');
+    
+    if (colaTickets.length > 0) {
+        estadoInicial.innerHTML = `<i class="fa-solid fa-list-ol"></i> Ya hay **${colaTickets.length}** tickets en espera.<br>Próximo turno a generar: **T-${proximoTurno}**`;
+    } else {
+        estadoInicial.innerHTML = `<i class="fa-solid fa-list-ol"></i> El próximo turno a generar es: **T-${proximoTurno}**`;
+    }
+}
+window.onload = actualizarVistaGenerador;
+</script>
+
+</body>
+</html>
