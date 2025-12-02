@@ -3,302 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROL | MÓDULO DE TURNOS AGI (SECUENCIAL)</title>
-    
+    <title>AGI | Administración de Turnos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* Estilos de Control */
+        /* Estilos generales */
         :root {
             --color-principal: #17a2b8; /* Cian/Teal */
-            --color-secundario: #28a745; /* Verde */
+            --color-secundario: #28a745; /* Verde Salud */
             --color-peligro: #dc3545; /* Rojo */
-            --color-alerta: #ffc107; /* Amarillo */
-            --color-fondo: #f8f9fa;
+            --color-fondo: #f4f7f6;
+            --color-fondo-admin: #343a40; /* Gris oscuro para el fondo de admin */
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 0; color: #333; background-color: var(--color-fondo);
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--color-fondo-admin); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            color: #fff; /* Texto blanco en el body */
         }
-        .box { 
-            background: white; padding: 30px; border-radius: 12px; width: 450px; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); text-align: center;
-            border-top: 5px solid var(--color-secundario); 
-        }
-        h1 {
-            color: var(--color-principal); border-bottom: 2px solid var(--color-principal);
-            padding-bottom: 10px; margin-top: 0; font-size: 1.8em;
-        }
-        h2 { margin-bottom: 5px; color: #333; padding-top: 15px; font-size: 1.2em; }
-        #currentTurn { font-size: 5em; font-weight: 800; color: var(--color-peligro); margin: 10px 0 0 0; display: block; }
-        #attendantName { font-size: 1.4em; color: var(--color-principal); font-weight: 600; margin-top: 5px; margin-bottom: 20px; display: block; }
-        #colaStatus { font-size: 1.1em; color: var(--color-secundario); margin-bottom: 20px; font-weight: bold; border: 1px dashed #ddd; padding: 10px; border-radius: 6px; }
-        
-        button { 
-            padding: 15px 15px; margin-top: 15px; cursor: pointer; width: 100%; 
-            border: none; border-radius: 6px; font-weight: bold; text-transform: uppercase;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: all 0.2s;
-        }
-        button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        button:nth-of-type(1) { background-color: var(--color-secundario); color: white; } /* Cambiado a Verde para reflejar FIFO/Orden */
-        button:nth-of-type(2) { background-color: var(--color-principal); color: white; } 
-        button:nth-of-type(3) { background-color: var(--color-peligro); color: white; } 
-        button.screen-btn { background-color: var(--color-alerta); color: #333; }
 
-        /* Estilos Pantalla de Llamada (Para la función abrirPantallaLlamada) */
-        .call-screen-body { background-color: #f5f5f5; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        .call-screen-body p { font-size: 3.5rem; margin: 0; color: #666; font-weight: 300; }
-        #called-turn { font-size: 18rem; color: #17a2b8; margin: 10px 0; animation: pulse 1s infinite alternate; letter-spacing: 5px; font-weight: 900; text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
-        #attendant-display { font-size: 4rem; color: #28a745; margin-top: 20px; font-weight: 600; }
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.02); } }
+        /* --- Estilos para la barra de navegación superior (Navbar) --- */
+        .navbar {
+            background-color: #000;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+        .navbar li a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+        .navbar li a:hover {
+            background-color: var(--color-principal); 
+        }
+        .navbar li a i {
+            margin-right: 8px;
+        }
+        /* El enlace activo (Administración en este caso) */
+        .navbar li .nav-active {
+            background-color: var(--color-secundario); 
+            font-weight: bold;
+        }
+        
+        /* --- Contenido Principal (Admin Panel) --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: var(--color-fondo-admin); 
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        
+        /* Estilos de las cajas de administración */
+        .admin-box {
+            background: #495057; /* Un gris más claro que el fondo */
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            border-top: 5px solid var(--color-principal);
+        }
+        .admin-box h2 {
+            color: var(--color-secundario);
+            font-size: 1.5em;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #6c757d;
+        }
+
+        /* Control de Llamadas */
+        #llamada-control {
+            grid-column: 1 / 2;
+        }
+
+        #ticketLlamadoDisplay {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--color-peligro);
+            margin: 15px 0;
+            text-align: center;
+            background: #212529;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .admin-button {
+            padding: 15px; 
+            background-color: var(--color-principal); 
+            color: white;
+            border: none; 
+            border-radius: 5px; 
+            font-size: 1.1em; 
+            font-weight: bold;
+            cursor: pointer; 
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .admin-button:hover:not(:disabled) {
+            background-color: #138496;
+        }
+        .admin-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Cola de Espera */
+        #cola-espera {
+            grid-column: 2 / 3;
+        }
+        #listaCola {
+            list-style: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #6c757d;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        #listaCola li {
+            background-color: #5a6268;
+            padding: 10px 15px;
+            border-bottom: 1px solid #6c757d;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        #listaCola li:first-child {
+            background-color: var(--color-secundario);
+            color: black;
+        }
+        #listaCola li.vacio {
+            text-align: center;
+            font-style: italic;
+            color: #ccc;
+            background-color: #5a6268;
+        }
+
+        /* Ajustes de Contador */
+        #contador-status {
+            grid-column: 1 / 2;
+        }
+
+        .status-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #5a6268;
+            border-radius: 5px;
+            border-left: 5px solid var(--color-secundario);
+        }
+
+        /* Botón de Reinicio (Peligro) */
+        .btn-danger {
+            background-color: var(--color-peligro);
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        /* ============================================== */
+        /* --- MEDIA QUERY para RESPONSIVE DESIGN (Móvil) --- */
+        /* ============================================== */
+        @media (max-width: 768px) {
+            /* Layout de Administración */
+            .admin-grid {
+                grid-template-columns: 1fr; /* Una columna en móvil */
+                margin: 0;
+            }
+            #llamada-control, #cola-espera, #contador-status {
+                grid-column: 1 / 2; /* Ocupan todo el ancho */
+            }
+
+            /* Navbar Móvil */
+            .navbar ul {
+                flex-wrap: wrap; 
+                justify-content: center;
+            }
+            .navbar li {
+                flex-basis: 33.33%; 
+                text-align: center;
+            }
+            .navbar li a {
+                padding: 10px 5px; 
+                font-size: 0.9em;
+            }
+            
+            /* Ocultar el texto de los enlaces y dejar solo el icono en móvil */
+            .navbar li a span {
+                display: none;
+            }
+            .navbar li a i {
+                margin-right: 0; 
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h1><i class="fa-solid fa-notes-medical"></i> CONTROL DE LLAMADAS AGI</h1>
-    
-    <h2>>> TURNO LLAMADO</h2>
-    <span id="currentTurn">N/A</span>
-    <span id="attendantName">--- LISTO PARA LLAMAR ---</span>
+<nav class="navbar">
+    <ul>
+        <li><a href="toma_de_turno.html"><i class="fa-solid fa-ticket"></i> <span>Toma de Turno</span></a></li> 
+        <li><a href="ticketadmin.html" class="nav-active"><i class="fa-solid fa-screwdriver-wrench"></i> <span>Administración</span></a></li>
+        <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a></li>
+        <li><a href="visor_datos.html"><i class="fa-solid fa-table-cells"></i> <span>Rendimiento Médico</span></a></li>
+        <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> <span>Instructivos</span></a></li>
+        <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> <span>Formatos</span></a></li>
+    </ul>
+</nav>
 
-    <p id="colaStatus">Tickets en cola: 0</p>
+<div class="main-content">
+    <div class="admin-grid">
 
-    <button onclick="llamarSiguienteTurno()">
-        <i class="fa-solid fa-person-walking-arrow-right"></i> LLAMAR SIGUIENTE TURNO (FIFO)
-    </button>
-    <button onclick="imprimirTurnoActual()">
-        <i class="fa-solid fa-print"></i> RE-IMPRIMIR TURNO EN LLAMADA
-    </button>
-    <button onclick="limpiarContadores()">
-        <i class="fa-solid fa-arrows-rotate"></i> REINICIAR SISTEMA (FIN DE DÍA)
-    </button>
-    <button class="screen-btn" onclick="abrirPantallaLlamada(turnoActual, MENSAJE_PASE)" style="margin-bottom: 0;">
-        <i class="fa-solid fa-desktop"></i> ABRIR PANTALLA DE LLAMADA
-    </button>
-</div>
+        <div id="llamada-control" class="admin-box">
+            <h2><i class="fa-solid fa-volume-up"></i> Control de Llamadas</h2>
+            <p id="siguienteTurnoCola">Cargando...</p>
 
-<audio id="campana" src="https://www.soundjay.com/buttons/beep-01a.mp3" preload="auto"></audio>
+            <div id="ticketLlamadoDisplay">---</div>
+            <p id="ticketLlamadoMessage">El último ticket llamado aparecerá aquí.</p>
 
-<script>
-// --- CONSTANTES DE LOCALSTORAGE (Sincronización) ---
-const CLAVE_COLA = 'agiColaTickets';
-const CLAVE_TURNO_ACTUAL = 'agiTurnoActual'; 
-const CLAVE_CONTADOR_TOTAL = 'agiContadorTotal'; 
+            <button id="btnLlamar" class="admin-button" onclick="llamarSiguienteTicket()">
+                <i class="fa-solid fa-bullhorn"></i> LLAMAR SIGUIENTE TURNO
+            </button>
+        </div>
 
-// --- ESTADO Y VARIABLES GLOBALES ---
-let colaTickets = [];
-let turnoActual = "N/A";
-let ventanaLlamada = null; 
-const campana = document.getElementById('campana');
-const MENSAJE_PASE = "PASE AL ÁREA DE ATENCIÓN";
+        <div id="cola-espera" class="admin-box">
+            <h2><i class="fa-solid fa-list-ol"></i> Cola de Espera</h2>
+            <p id="estadoCola">Tickets en cola: 0</p>
+            <ul id="listaCola">
+                <li class="vacio">La cola está vacía.</li>
+            </ul>
+        </div>
 
-
-// ====================================================
-// A. FUNCIONES DE PERSISTENCIA Y CARGA
-// ====================================================
-
-function cargarEstado() {
-    colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
-    turnoActual = localStorage.getItem(CLAVE_TURNO_ACTUAL) || 'N/A';
-    
-    actualizarVistaControl();
-    
-    // Abrir la pantalla de llamada si hay un turno activo
-    if(turnoActual !== 'N/A') {
-        abrirPantallaLlamada(turnoActual, MENSAJE_PASE);
-    }
-}
-
-function guardarEstado() {
-    localStorage.setItem(CLAVE_COLA, JSON.stringify(colaTickets));
-    localStorage.setItem(CLAVE_TURNO_ACTUAL, turnoActual);
-}
-
-function actualizarVistaControl() {
-    const mensajeControl = (turnoActual !== 'N/A') ? 'TURNO ACTIVO' : 'LISTO PARA LLAMAR';
-
-    document.getElementById("currentTurn").textContent = turnoActual;
-    document.getElementById("attendantName").textContent = mensajeControl; 
-    
-    document.getElementById("colaStatus").textContent = `Tickets en cola: ${colaTickets.length}`;
-
-    guardarEstado();
-}
-
-
-// ====================================================
-// B. SONDEO (POLLING) PARA SINCRONIZACIÓN
-// ====================================================
-
-function verificarColaPublica() {
-    const colaGuardadaJSON = localStorage.getItem(CLAVE_COLA);
-    
-    if (colaGuardadaJSON) {
-        const nuevaCola = JSON.parse(colaGuardadaJSON);
-        
-        if (colaTickets.length !== nuevaCola.length) {
-            colaTickets = nuevaCola;
-            actualizarVistaControl(); 
-        }
-    }
-}
-
-// Inicia el sondeo: comprueba la cola cada 3 segundos
-setInterval(verificarColaPublica, 3000); 
-
-
-// ====================================================
-// C. FUNCIÓN PRINCIPAL DE LLAMADA SECUENCIAL (FIFO)
-// ====================================================
-
-function llamarSiguienteTurno() {
-    verificarColaPublica(); 
-    
-    if (colaTickets.length === 0) {
-        alert("ERROR: COLA DE TICKETS VACÍA. Genere tickets en el módulo público.");
-        return;
-    }
-
-    // 1. EXTRAER EL PRIMER TICKET DE LA COLA (MÉTODO FIFO)
-    const ticketLlamado = colaTickets.shift(); 
-    
-    turnoActual = ticketLlamado;
-
-    // 2. Guardar la cola reducida y actualizar la vista
-    actualizarVistaControl(); 
-    
-    // 3. Enviar a la pantalla grande con el mensaje genérico
-    enviarTurnoAPantalla(turnoActual, MENSAJE_PASE);
-}
-
-
-// ====================================================
-// D. LIMPIEZA DEL SISTEMA
-// ====================================================
-function limpiarContadores() {
-    if (confirm("ADVERTENCIA: ¿ESTÁ SEGURO DE REINICIAR TODO EL SISTEMA? Esto eliminará todos los tickets en cola.")) {
-        
-        colaTickets = [];
-        turnoActual = "N/A";
-
-        localStorage.removeItem(CLAVE_COLA);
-        localStorage.removeItem(CLAVE_TURNO_ACTUAL);
-        localStorage.setItem(CLAVE_CONTADOR_TOTAL, '0');
-        
-        actualizarVistaControl();
-
-        if (ventanaLlamada && !ventanaLlamada.closed) {
-            enviarTurnoAPantalla("N/A", "--- SISTEMA REINICIADO ---");
-        }
-        
-        alert("ESTADO DEL SISTEMA: REINICIO COMPLETO. Por favor, reinicie la página de generación de tickets.");
-    }
-}
-
-
-// ====================================================
-// E. FUNCIONES AUXILIARES (PANTALLA LLAMADA / IMPRESIÓN)
-// ====================================================
-
-function enviarTurnoAPantalla(turno, mensaje) {
-    campana.currentTime = 0; 
-    campana.play().catch(e => console.error("No se pudo reproducir el audio:", e));
-    
-    if (ventanaLlamada && !ventanaLlamada.closed) {
-        ventanaLlamada.postMessage({ 
-            type: 'updateTurn', 
-            turno: turno, 
-            nombre: mensaje 
-        }, '*');
-        ventanaLlamada.focus(); 
-    } else {
-        abrirPantallaLlamada(turno, mensaje);
-    }
-}
-
-function abrirPantallaLlamada(turnoDisplay, nombreDisplay) {
-    const contenidoHTML = `
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <title>AGI :: PANTALLA DE LLAMADA</title>
-            <style>
-                .call-screen-body { background-color: #f5f5f5; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-                .call-screen-body div { text-align: center; }
-                .call-screen-body p { font-size: 3.5rem; margin: 0; color: #666; font-weight: 300; }
-                #called-turn { font-size: 18rem; color: #17a2b8; margin: 10px 0; animation: pulse 1s infinite alternate; letter-spacing: 5px; font-weight: 900; text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
-                #attendant-display { font-size: 4rem; color: #28a745; margin-top: 20px; font-weight: 600; }
-                @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.02); } }
-            </style>
-        </head>
-        <body class="call-screen-body">
-            <div>
-                <p>TURNO LLAMADO</p>
-                <span id="called-turn">${turnoDisplay}</span>
-                <span id="attendant-display">${nombreDisplay}</span>
+        <div id="contador-status" class="admin-box">
+            <h2><i class="fa-solid fa-cogs"></i> Estado del Sistema</h2>
+            
+            <div class="status-info">
+                <p id="estadoContador">Último ticket generado: T-000</p>
+                <p id="proximoGenerar">Próximo a generar: T-001</p>
             </div>
 
-            <script>
-                window.addEventListener('message', function(event) {
-                    if (event.data.type === 'updateTurn') {
-                        document.getElementById('called-turn').textContent = event.data.turno;
-                        document.getElementById('attendant-display').textContent = event.data.nombre || "--- EN ESPERA ---";
-                    }
-                });
-            <\/script>
-        </body>
-        </html>
-    `;
-
-    ventanaLlamada = window.open('', 'AGI_PANTALLA_LLAMADA', 'width=1200,height=800');
-    if (ventanaLlamada) {
-        ventanaLlamada.document.write(contenidoHTML);
-        ventanaLlamada.document.close();
-    } else {
-        alert("ACCESO DENEGADO: Bloqueador de pop-ups activo. No se puede abrir la pantalla de llamada.");
-    }
-}
-
-function imprimirTurnoActual() {
-    if (turnoActual === "N/A") {
-        alert("ERROR: NO HAY LLAMADA ACTIVA PARA IMPRIMIR.");
-        return;
-    }
-    abrirVentanaImpresion(turnoActual, MENSAJE_PASE);
-}
-
-function abrirVentanaImpresion(ticket, info) {
-    const ventanaImpresion = window.open("", "ImprimirTicket", "width=350,height=300");
-    
-    if (!ventanaImpresion) {
-        alert("ACCESO DENEGADO: Bloqueador de pop-ups activo. No se puede imprimir.");
-        return;
-    }
-    
-    const contenidoTicket = `
-        <div id="ticket-print" style="font-family: monospace; text-align: center; color: #000;">
-            <p style="font-size: 1.2em;">[TICKET DE TURNO]</p>
-            <h1 style="font-size: 3em; color: #17a2b8; margin: 5px 0;">${ticket}</h1>
-            <p style="font-size: 1.1em; margin-top: 0;">${info}</p>
-            <p style="font-size: 0.8em; margin-top: 15px;">FECHA: ${new Date().toLocaleString()}</p>
-            <hr style="border-top: 1px dashed #000; margin: 10px 0;">
-            <p style="font-size: 0.8em;">-- GUARDE SU TURNO --</p>
+            <button class="admin-button btn-danger" onclick="resetearCola()">
+                <i class="fa-solid fa-sync-alt"></i> REINICIAR COLA Y CONTADOR (1/100)
+            </button>
         </div>
-    `;
 
-    ventanaImpresion.document.write(`
-        <html><head><title>IMPRESIÓN TICKET</title><style>body { font-family: monospace; text-align: center; }</style></head><body>
-            ${contenidoTicket}
-            <script>window.onload = function() { window.print(); setTimeout(() => window.close(), 100); };<\/script>
-        </body></html>
-    `);
-    ventanaImpresion.document.close();
+    </div>
+</div>
+
+<script>
+// --- CONSTANTES DE LOCALSTORAGE (Compartidas con la toma de turno) ---
+const CLAVE_COLA = 'agiColaTickets';
+const CLAVE_CONTADOR_TOTAL = 'agiContadorTotal'; 
+
+// ====================================================
+// FUNCIÓN PRINCIPAL: LLAMAR/DESPACHAR EL SIGUIENTE TICKET
+// ====================================================
+function llamarSiguienteTicket() {
+    let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
+    
+    if (colaTickets.length > 0) {
+        // 1. Quitar el primer elemento de la cola
+        const ticketLlamado = colaTickets.shift(); 
+        
+        // 2. Guardar la cola actualizada
+        localStorage.setItem(CLAVE_COLA, JSON.stringify(colaTickets));
+        
+        // 3. Mostrar feedback visual
+        document.getElementById('ticketLlamadoDisplay').textContent = ticketLlamado;
+        document.getElementById('ticketLlamadoMessage').innerHTML = `<i class="fa-solid fa-check"></i> Ticket **${ticketLlamado}** ha sido llamado a atención.`;
+    } else {
+        document.getElementById('ticketLlamadoDisplay').textContent = '---';
+        document.getElementById('ticketLlamadoMessage').innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i> No hay tickets pendientes en la cola.';
+    }
+    
+    actualizarVistaAdmin();
 }
 
-// Inicializar el sistema al cargar la página
-window.onload = cargarEstado;
+// ====================================================
+// FUNCIÓN: REINICIAR EL SISTEMA
+// ====================================================
+function resetearCola() {
+    if (confirm("🚨 ADVERTENCIA: ¿Está seguro de que desea reiniciar el contador de turnos y vaciar toda la cola? Esta acción no se puede deshacer y afectará a la página de toma de turno.")) {
+        localStorage.removeItem(CLAVE_COLA); // Vacía la lista de tickets
+        localStorage.setItem(CLAVE_CONTADOR_TOTAL, '0'); // Reinicia el contador secuencial a 0
+        actualizarVistaAdmin();
+        document.getElementById('ticketLlamadoDisplay').textContent = 'T-001';
+        document.getElementById('ticketLlamadoMessage').innerHTML = '<i class="fa-solid fa-redo"></i> Sistema Reiniciado. El próximo ticket será T-001.';
+    }
+}
+
+// ====================================================
+// FUNCIÓN: ACTUALIZAR VISTA DE ADMINISTRACIÓN
+// ====================================================
+function actualizarVistaAdmin() {
+    let colaTickets = JSON.parse(localStorage.getItem(CLAVE_COLA) || '[]');
+    const contador = parseInt(localStorage.getItem(CLAVE_CONTADOR_TOTAL) || '0', 10);
+    
+    // --- 1. Actualizar lista de cola ---
+    const listaCola = document.getElementById('listaCola');
+    listaCola.innerHTML = ''; // Limpiar lista
+    
+    if (colaTickets.length > 0) {
+        colaTickets.forEach(ticket => {
+            const li = document.createElement('li');
+            li.textContent = ticket;
+            listaCola.appendChild(li);
+        });
+        document.getElementById('estadoCola').textContent = `Tickets en cola: ${colaTickets.length}`;
+        document.getElementById('siguienteTurnoCola').textContent = `El siguiente turno a llamar es: ${colaTickets[0]}`;
+        document.getElementById('btnLlamar').disabled = false;
+    } else {
+        listaCola.innerHTML = '<li class="vacio">La cola está vacía.</li>';
+        document.getElementById('estadoCola').textContent = 'Tickets en cola: 0';
+        document.getElementById('siguienteTurnoCola').textContent = 'No hay tickets pendientes.';
+        document.getElementById('btnLlamar').disabled = true;
+    }
+
+    // --- 2. Actualizar estado del contador ---
+    const proximoTurno = String(contador % 100 + 1).padStart(3, '0');
+    document.getElementById('estadoContador').textContent = `Último ticket generado: T-${String(contador).padStart(3, '0')}`;
+    document.getElementById('proximoGenerar').textContent = `Próximo a generar: T-${proximoTurno}`;
+}
+
+// ====================================================
+// INICIALIZACIÓN Y AUTO-REFRESCO
+// ====================================================
+window.onload = actualizarVistaAdmin;
+
+// Esto asegura que la vista de administrador se actualice si alguien saca un ticket en otra pestaña.
+setInterval(actualizarVistaAdmin, 3000); 
 </script>
 
 </body>
