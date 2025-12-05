@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzón de Quejas y Sugerencias | AGI - Región Metropolitana DC</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ====================================================
+        VARIABLES Y ESTILOS BASE (MANTENIDOS)
+        ==================================================== */
+        :root {
+            --color-principal: #17a2b8; 
+            --color-secundario: #28a745; 
+            --color-fondo: #f4f6f9; 
+            --color-texto: #333;
+            --color-nav-hover: #138496; 
+            --color-card-bg: #ffffff;
+            --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --sombra-boton: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--color-texto);
+            line-height: 1.6;
+            background-color: #ffffff; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23c0c0c0" opacity="0.15" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
+            background-repeat: repeat;
+        }
+
+        /* ====================================================
+        ANIMACIONES
+        ==================================================== */
+        @keyframes float-wave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.01); opacity: 0.95; } 
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes flash-construction {
+            0%, 100% { background-color: #fff3cd; border-color: #ffeeba; }
+            50% { background-color: #ffeeba; border-color: #fff3cd; }
+        }
+        
+        /* Animación para el placeholder de carga del formulario */
+        @keyframes loading-pulse {
+            0% { background-color: #f0f0f0; }
+            50% { background-color: #e0e0e0; }
+            100% { background-color: #f0f0f0; }
+        }
+
+        /* NUEVA ANIMACIÓN para la Semana Epidemiológica */
+        @keyframes se-background-flash {
+            0%, 100% { background-color: #e6f5ea; } /* Verde suave */
+            50% { background-color: #c7e8c3; } /* Verde ligeramente más claro para el pulso */
+        }
+
+
+        /* ====================================================
+        HEADER Y NAVEGACIÓN
+        ==================================================== */
+        header {
+            background-color: var(--color-principal); 
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            animation: float-wave 4s infinite alternate ease-in-out; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            animation: pulse 4s infinite ease-in-out; 
+        }
+
+        nav {
+            background-color: #343a40; 
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        /* Estilos de navegación */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.1s; 
+        }
+        nav ul li a:hover, .nav-active {
+            background-color: var(--color-nav-hover);
+            transform: scale(1.05); 
+        }
+
+        .nav-current {
+            background-color: var(--color-nav-hover);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none; 
+            color: white;
+            font-size: 1.5em;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: right;
+        }
+        
+        /* ====================================================
+        ESTILO PARA LA SEMANA EPIDEMIOLÓGICA (CON ANIMACIÓN)
+        ==================================================== */
+        .epidemiology-info {
+            background-color: #e6f5ea; 
+            color: var(--color-secundario); 
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            /* Aplicación de la animación */
+            animation: se-background-flash 5s infinite alternate ease-in-out;
+        }
+        .epidemiology-info i {
+            margin-right: 8px;
+        }
+        .epidemiology-info strong {
+            font-weight: bold;
+            color: #000; 
+        }
+        .date-range {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        /* ====================================================
+        CONTENIDO PRINCIPAL Y ALERTAS
+        ==================================================== */
+        .container {
+            width: 90%; 
+            max-width: 900px; 
+            margin: 40px auto;
+            padding: 20px 30px;
+            background-color: var(--color-card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--sombra-card);
+        }
+
+        h2 {
+            color: var(--color-principal); 
+            border-bottom: 2px solid var(--color-principal);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .construction-alert {
+            background-color: #fff3cd; 
+            color: #856404; 
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px; 
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            animation: flash-construction 5s infinite alternate ease-in-out;
+        }
+        .construction-alert i {
+            margin-right: 10px;
+            color: #856404; 
+        }
+
+        /* ====================================================
+        IFRAME Y PLACEHOLDER DE CARGA
+        ==================================================== */
+        .form-wrapper {
+            position: relative;
+            min-height: 1200px; 
+        }
+        
+        .form-loading-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            animation: loading-pulse 1.5s infinite alternate;
+            z-index: 1; 
+        }
+
+        .form-embed {
+            margin-top: 20px;
+            width: 100%; 
+            height: 1200px; 
+            border: none;
+            border-radius: 4px;
+            display: block; 
+            opacity: 0; 
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+        .form-embed.loaded {
+            opacity: 1;
+        }
+        
+        /* ====================================================
+        FOOTER Y RESPONSIVIDAD 
+        ==================================================== */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* Media Query para pantallas pequeñas */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .menu-toggle {
+                display: block; 
+            }
+            nav ul {
+                flex-direction: column;
+                display: none; 
+                width: 100%;
+                padding-bottom: 10px;
+                position: absolute;
+                background-color: #343a40;
+                z-index: 10;
+            }
+            nav ul.active {
+                display: flex; 
+            }
+            nav ul li {
+                margin: 5px 0;
+                width: 100%;
+                text-align: left;
+            }
+            nav ul li a {
+                display: block;
+                padding: 10px 20px;
+                border-radius: 0;
+            }
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Buzón de Retroalimentación del AGI</h1>
+        <p>Región Metropolitana DC</p>
+    </header>
+
+    <div class="epidemiology-info">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span id="semana-epidemiologica">Cargando Semana Epidemiológica...</span>
+    </div>
+    
+    <nav id="main-nav-container">
+        <div class="menu-toggle" onclick="toggleMenu(event)">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        
+        <ul id="main-nav">
+            <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+            <li><a href="visor_datos.html"><i class="fa-solid fa-table-cells"></i> Rendimiento Médico</a></li>
+            <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
+            <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
+            <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
+            <li><a href="ticketusuario.html"><i class="fa-solid fa-ticket"></i> Toma de Turno</a></li> 
+            <li><a href="#quejas" class="nav-current"><i class="fa-solid fa-comments"></i> Quejas y Sugerencias</a></li> 
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <div class="construction-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            ESTE SITIO ESTÁ EN CONSTRUCCIÓN. La información puede no estar completa o finalizada. ¡Disculpe las molestias!
+        </div>
+        
+        <section id="buzon-sugerencias">
+            <h2>💬 Buzón de Quejas y Sugerencias</h2>
+            <p style="text-align: center; margin-bottom: 25px;">
+                Su retroalimentación es fundamental para la mejora continua de los sistemas internos del AGI. Llene el formulario a continuación para reportar errores o proponer ideas.
+            </p>
+            
+            <div class="form-wrapper">
+                <div id="form-placeholder" class="form-loading-placeholder"></div>
+                
+                <iframe 
+                    id="quejas-iframe"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSd6m38ykT6Y2rvL-aZG9duUFcMGgY7Z7u-PmqmBI8uoq4TUzA/viewform?embedded=true" 
+                    class="form-embed" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0"
+                    onload="handleIframeLoad()">
+                    Cargando Formulario de Google...
+                </iframe>
+            </div>
+
+        </section>
+        
+    </div>
+
+    <footer>
+        <p>© 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Función para manejar el menú de hamburguesa
+        function toggleMenu(event) {
+            const nav = document.getElementById('main-nav');
+            if (event) event.stopPropagation();
+            nav.classList.toggle('active');
+        }
+
+        // Cierra el menú si se hace clic fuera de él (solo en móviles)
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('main-nav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (nav.classList.contains('active') && !nav.contains(event.target) && !toggle.contains(event.target)) {
+                if (window.innerWidth <= 768) {
+                    nav.classList.remove('active');
+                }
+            }
+        });
+
+
+        // ====================================================
+        // FUNCIÓN DE CÁLCULO DE SEMANA EPIDEMIOLÓGICA (ISO 8601)
+        // ====================================================
+        function getSemanaEpidemiologica(date) {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            
+            // Establece el jueves de la semana actual (Día de referencia de la SE)
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            
+            // Obtiene el inicio del año (01 de enero)
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            
+            // Calcula la diferencia en milisegundos y la convierte a semanas
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            
+            // Para el cálculo de la SE, el año es el del jueves
+            const year = d.getUTCFullYear(); 
+            
+            // Calcular el rango de fechas
+            const startOfWeek = new Date(d);
+            startOfWeek.setUTCDate(d.getUTCDate() - 3); // Lunes (ajustado desde el jueves)
+            startOfWeek.setUTCDate(startOfWeek.getUTCDate() - (startOfWeek.getUTCDay() || 7) + 1); // Asegura el lunes
+            
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 6); // Domingo
+
+            const options = { day: 'numeric', month: 'short' };
+            const startStr = startOfWeek.toLocaleDateString('es-ES', options).replace(/\sde\s/g, ' ');
+            const endStr = endOfWeek.toLocaleDateString('es-ES', options).replace(/\sde\s/g, ' ');
+
+            return { year: year, week: weekNo, range: `${startStr} al ${endStr}` };
+        }
+
+        // Ejecutar la función y mostrar el resultado
+        document.addEventListener('DOMContentLoaded', () => {
+            const hoy = new Date();
+            const se = getSemanaEpidemiologica(hoy);
+            
+            const elementoSE = document.getElementById('semana-epidemiologica');
+            elementoSE.innerHTML = `SEMANA EPIDEMIOLÓGICA: <strong>${se.week} / ${se.year}</strong> <span class="date-range">(${se.range})</span>`;
+        });
+        
+        // ====================================================
+        // FUNCIÓN DE GESTIÓN DE CARGA DE IFRAME
+        // ====================================================
+        function handleIframeLoad() {
+            const iframe = document.getElementById('quejas-iframe');
+            const placeholder = document.getElementById('form-placeholder');
+            
+            iframe.classList.add('loaded');
+            
+            setTimeout(() => {
+                placeholder.style.display = 'none';
+            }, 500);
+        }
+    </script>
+
+</body>
+</html>
