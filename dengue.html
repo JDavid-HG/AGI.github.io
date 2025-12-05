@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Visor de Datos | Vigilancia de Dengue AGI</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Variables de Color (Estilo AGI) */
+        :root {
+            --color-principal: #17a2b8; /* Info / Azul-Cian */
+            --color-secundario: #28a745; /* Success / Verde */
+            --color-peligro: #dc3545;
+            --color-fondo: #f8f9fa;
+            --color-texto: #333;
+            --color-nav-bg: #343a40; /* Gris Oscuro */
+            --color-nav-hover: #138496;
+            --color-warning: #ffc107;
+            --card-bg: white;
+            
+            /* Colores de Alerta/Notificación */
+            --notify-bg: #e9f7ff; /* Fondo para aviso principal */
+            --notify-border: #17a2b8; /* Borde para aviso principal */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+        }
+
+        /* --- Estilos del Encabezado --- */
+        header {
+            background: var(--color-principal);
+            color: white;
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 5px solid var(--color-secundario);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header p.lead {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Botones Generales */
+        .btn {
+            background: var(--color-secundario);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn:hover { background: #218838; }
+
+        /* --- Estilos de Navegación --- */
+        nav {
+            background: var(--color-nav-bg);
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Para hacerlo responsivo */
+            gap: 5px;
+        }
+        nav li {
+            display: inline-block;
+        }
+
+        nav a {
+            color: white; 
+            text-decoration: none; 
+            padding: 10px 15px;
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        nav a:hover { background: var(--color-nav-hover); }
+        .nav-active { 
+            background: var(--color-principal);
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Resaltar el activo */
+        }
+
+        /* --- Estilos del Contenido Principal --- */
+        main { 
+            max-width: 1200px; 
+            margin: 18px auto; 
+            padding: 18px; 
+        }
+
+        .card {
+            background: white; 
+            padding: 20px;
+            border-radius: 12px; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        /* 🔔 NOTIFICACIÓN + BOTÓN (Aviso de Arbovirosis) */
+        .notify-box {
+            background: var(--notify-bg);
+            border-left: 5px solid var(--notify-border);
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .notify-box .btn-download {
+            background: var(--color-principal);
+            padding: 10px 14px;
+        }
+        
+        /* Estilos específicos para el iframe de Google Sheets */
+        .embed-wrap {
+            position: relative; 
+            padding-top: 56.25%; /* Relación 16:9 */
+            overflow: hidden; 
+            border: 3px solid var(--color-principal);
+            border-radius: 8px;
+        }
+
+        iframe {
+            position: absolute; 
+            top: 0; left: 0;
+            width: 100%; 
+            height: 100%;
+            border: none;
+        }
+
+        /* --- Pie de Página --- */
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.85rem;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        /* Media Queries para Responsividad */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .actions {
+                margin-top: 10px;
+                justify-content: center;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav a {
+                width: 80%; /* Ocupar más espacio en móvil */
+                justify-content: center;
+                margin-bottom: 5px;
+            }
+            .notify-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .notify-box .btn-download {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div></div>
+
+    <div class="header-content">
+        <h1><i class="fa-solid fa-mosquito"></i> Visor: Vigilancia de Dengue (AGI)</h1>
+        <p class="lead">Monitoreo epidemiológico del Dengue para la Región Metropolitana DC.</p>
+    </div>
+
+    <div class="actions">
+        <a class="btn" href="https://docs.google.com/spreadsheets/d/1YEWpZNBAVc6vcXHH7nQ5lYL5UnNH2xwSTEDBGi8Akmw/edit?usp=sharing" target="_blank">
+            <i class="fa-solid fa-up-right-from-square"></i> Abrir en Sheets
+        </a>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+        <li><a href="dengue.html" class="nav-active"><i class="fa-solid fa-mosquito"></i> Vigilancia de Dengue</a></li>
+        <li><a href="rendimiento.html"><i class="fa-solid fa-table-cells"></i> Rendimiento Médico</a></li>
+        <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
+        <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
+        <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
+        <li><a href="ticketusuario.html"><i class="fa-solid fa-ticket"></i> Toma de Turno</a></li>
+        <li><a href="buzon.html"><i class="fa-solid fa-comments"></i> Quejas y Sugerencias</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <div class="notify-box">
+        <div>
+            <i class="fa-solid fa-envelope-circle-check" style="color: var(--color-principal); margin-right: 5px;"></i>
+            Todo caso captado de **arbovirosis** debe ser notificado obligatoriamente enviando el formato oficial al correo:
+            <br><br>
+            📧 <strong>vigilanciarsmteg@gmail.com</strong><br>
+            📧 <strong>arbovirosisrsmdc@gmail.com</strong>
+        </div>
+
+        <a class="btn btn-download" href="FORMATODENGUE.xlsx" download>
+            <i class="fa-solid fa-file-arrow-down"></i> Descargar Formato
+        </a>
+    </div>
+
+    <section class="card">
+        <h2 style="color: var(--color-principal); margin-bottom: 15px; font-size: 1.5rem;">
+            <i class="fa-solid fa-chart-bar"></i> Área de Trabajo (Vigilancia Epidemiológica de Dengue)
+        </h2>
+        <p style="margin-bottom: 18px; color: #6c757d;">
+            Utilice esta sección para el monitoreo en tiempo real de los casos notificados de Dengue y otras arbovirosis en la Región.
+        </p>
+
+        <div class="embed-wrap">
+            <iframe
+                src="https://docs.google.com/spreadsheets/d/1YEWpZNBAVc6vcXHH7nQ5lYL5UnNH2xwSTEDBGi8Akmw/edit?usp=sharing&embedded=true">
+            </iframe>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    <p><i class="fa-regular fa-copyright"></i> 
+    <span id="current-year"></span> Área de Gestión de la Información (AGI)</p>
+</footer>
+
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
