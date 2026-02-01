@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentos y Formatos Oficiales | AGI - Región Metropolitana DC</title>
+    <title>Documentos y Formatos Oficiales | AGI - Región Metropolitana DC</title> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -23,8 +23,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             color: var(--color-texto);
-            background-color: var(--color-fondo);
-            transition: background 0.3s, color 0.3s;
+            background-color: #ffffff;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path fill="%23c0c0c0" opacity="0.15" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
         }
 
         header {
@@ -77,7 +77,6 @@
             padding: 20px;
             border-radius: var(--radius);
             box-shadow: var(--sombra-card);
-            transition: background 0.3s, color 0.3s;
         }
 
         h2 {
@@ -96,31 +95,11 @@
             margin-bottom: 25px;
         }
 
-        input#search {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: var(--radius);
-            border: 1px solid #ccc;
-        }
-
-        .collapsible {
-            cursor: pointer;
-            user-select: none;
-            padding: 10px;
+        .category-group h3 {
+            background: #e6f5ea;
             border-left: 5px solid var(--color-secundario);
-            background-color: #e6f5ea;
-            margin-bottom: 5px;
-            transition: background 0.3s;
-        }
-
-        .collapsible.active {
-            background-color: #d0eed4;
-        }
-
-        .content {
-            display: block;
-            padding: 5px 0 15px 0;
+            padding: 10px;
+            color: var(--color-secundario);
         }
 
         .manual-card {
@@ -132,11 +111,6 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            transition: background 0.3s;
-        }
-
-        .manual-card[title] {
-            cursor: help;
         }
 
         .download-button {
@@ -149,12 +123,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             background-color: #1e7e34;
         }
 
@@ -163,7 +134,6 @@
             padding: 20px;
             color: #777;
             font-size: 0.9em;
-            transition: color 0.3s;
         }
 
         /* ==========================
@@ -199,36 +169,6 @@
                 font-size: 1.7em;
             }
         }
-
-        /* ==========================
-           MODO OSCURO
-        ========================== */
-        body.dark-mode {
-            background-color: #121212;
-            color: #eee;
-        }
-
-        body.dark-mode .container {
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 12px rgba(255,255,255,0.05);
-        }
-
-        body.dark-mode .manual-card {
-            background-color: #2c2c2c;
-            border-color: #444;
-        }
-
-        body.dark-mode nav {
-            background-color: #1a1a1a;
-        }
-
-        body.dark-mode nav ul li a:hover {
-            background-color: #0d6efd;
-        }
-
-        body.dark-mode footer {
-            color: #aaa;
-        }
     </style>
 </head>
 
@@ -259,87 +199,224 @@
         ⚠️ ESTE SITIO ESTÁ EN CONSTRUCCIÓN
     </div>
 
-    <input type="text" id="search" placeholder="🔍 Buscar documentos...">
-
     <h2>Documentos Disponibles</h2>
 
-    <!-- Ejemplo de categoría collapsible -->
-    <h3 class="collapsible">📄 Formularios PDF</h3>
-    <div class="content">
-        <div class="manual-card" title="Formato para control de asistencia">
+    <div class="category-group">
+        <h3>📄 Formularios PDF</h3>
+
+        <div class="manual-card">
             <h4>Hoja de control</h4>
-            <a href="CONTROLDEINFORMACIONENBLANCOAGI.pdf" class="download-button" target="_blank">
+            <a href="CONTROLDEINFORMACIONENBLANCOAGI.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
                 <i class="fa-solid fa-eye"></i> Ver
             </a>
         </div>
 
-        <div class="manual-card" title="Formulario actualizado 2026">
+        <div class="manual-card">
             <h4>AT2R</h4>
-            <a href="AT2R(ACTUALIZADO2026)" class="download-button" target="_blank">
+            <a href="AT2R(ACTUALIZADO2026)" class="download-button" target="_blank" rel="noopener noreferrer">
                 <i class="fa-solid fa-eye"></i> Ver
             </a>
         </div>
 
-        <div class="manual-card" title="Formato para agendar hora médico">
+        <div class="manual-card">
             <h4>HORA MEDICO</h4>
-            <a href="HORAMEDICO.pdf" class="download-button" target="_blank">
+            <a href="HORAMEDICO.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
                 <i class="fa-solid fa-eye"></i> Ver
             </a>
         </div>
 
-        <div class="manual-card" title="Paquete comprimido de SINOVA-2">
-            <h4>SINOVA-2_VAC_GE-2_INF-2_DESP-2</h4>
-            <a href="/downloads/3.SINOVA-2_VAC_GE-2_INF-2_DESP-2.zip" class="download-button" download>
-                <i class="fa-solid fa-download"></i> Descargar
+ <div class="manual-card">
+    <h4>SINOVA-2_VAC_GE-2_INF-2_DESP-2</h4>
+    <a href="/downloads/3.SINOVA-2_VAC_GE-2_INF-2_DESP-2.zip"
+       class="download-button"
+       download>
+        <i class="fa-solid fa-download"></i> Descargar
+    </a>
+</div>
+
+<div class="manual-card">
+            <h4>VACUNACOVID-19(ACTUALIZADOAÑO2025)</h4>
+            <a href="VACUNACOVID-19(ACTUALIZADOAÑO2025).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
             </a>
         </div>
+<div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (CONSOLIDADO) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOSACTUALIZADOSENBLANCO(CONSOLIDADO)ODONTOLOGIA2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (INDIVIDUAL) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOSACTUALIZADOSENBLANCO(INDIVIDUAL)ODONTOLOGIA2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+           <div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (INDIVIDUAL) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOHORAODONTOLOGOPDF(ENBLANCO).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FormularioTB9</h4>
+            <a href="TB9MENSUAL.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FormularioTB3</h4>
+            <a href="FormularioTB3.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+<div class="manual-card">
+            <h4>MORBILIDAD2026</h4>
+            <a href="MORBILIDAD2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>VOLUNTARIOSDESALUDA</h4>
+            <a href="VOLUNTARIOSDESALUDAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>REHIDRATACIÓNORAL</h4>
+            <a href="REHIDRATACIÓNORALAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>CONSEJERIASDEFAMILIA</h4>
+            <a href="CONSEJERIASDEFAMILIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>CONSEJERIASDEFAMILIA</h4>
+            <a href="FORMATOTRANSMISIBLE(ACTUALIZADO2026).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>ZOONOSISAIMPRIMIR</h4>
+            <a href="ZOONOSISAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>REPORTEMENSUALITS</h4>
+            <a href="REPORTEMENSUALITS.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMATOCS-1CONSEJERIA </h4>
+            <a href="FORMATOCS-1CONSEJERIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>FORMATOCS-2CONSEJERIA </h4>
+            <a href="FORMATOCS-2CONSEJERIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FICHA DE MONITOREO MENSUAL.VIH </h4>
+            <a href="FICHADEMONITOREOMENSUAL.VIH.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+ <div class="manual-card">
+            <h4>DEFUNCIONES1</h4>
+            <a href="DEFUNCIONES1.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMULARIO3.1</h4>
+            <a href="FORMULARIO3.1ACTUALIZADO2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+         <div class="manual-card">
+            <h4>SIAFI</h4>
+            <a href="SIAFIAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>VPH2026</h4>
+            <a href="VPH2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>INFORMEDENUTRICIÓN(AÑO 2025)</h4>
+            <a href="INFORMEDENUTRICIÓN(AÑO 2025).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+         <div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. MALARIA, CHAGAS Y OTROS) 2025</h4>
+            <a href="ACTIVIDADESENPROMOCIÓN(ENF.MALARIA,CHAGASYOTROS)2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025</h4>
+            <a href="ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+<div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025</h4>
+            <a href="ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
     </div>
 
-    <!-- Puedes duplicar estas secciones para otras categorías -->
 </div>
 
 <footer>
     © 2025 Área de Gestión de la Información (AGI)
 </footer>
 
-<!-- BOTÓN MODO OSCURO -->
-<button onclick="toggleDarkMode()" style="position:fixed; bottom:20px; right:20px; padding:10px 15px; border-radius:8px; border:none; cursor:pointer; background:#17a2b8; color:white;">🌙 Dark Mode</button>
-
 <script>
-    // Toggle menú responsive
     function toggleMenu() {
         document.getElementById('main-nav').classList.toggle('active');
-    }
-
-    // Filtro de búsqueda
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('keyup', () => {
-        const filter = searchInput.value.toLowerCase();
-        const cards = document.querySelectorAll('.manual-card');
-        cards.forEach(card => {
-            const text = card.querySelector('h4').innerText.toLowerCase();
-            card.style.display = text.includes(filter) ? 'flex' : 'none';
-        });
-    });
-
-    // Collapsibles
-    const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('active');
-            const content = item.nextElementSibling;
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
-        });
-    });
-
-    // Modo oscuro
-    function toggleDarkMode() {
-        document.body.classList.toggle('dark-mode');
     }
 </script>
 
 </body>
 </html>
+
 
 
 
