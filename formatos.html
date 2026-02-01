@@ -5,122 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentos y Formatos Oficiales | AGI - Región Metropolitana DC</title> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
-        /* ====================================================
-        VARIABLES Y ESTILOS BASE (UNIFICADOS AL TEMA DE SALUD)
-        ==================================================== */
         :root {
-            /* COLOR PRINCIPAL UNIFICADO: Teal/Cian (Salud Digital) */
-            --color-principal: #17a2b8; 
-            /* COLOR SECUNDARIO UNIFICADO: Verde (Énfasis en Salud/Botones de Descarga) */
-            --color-secundario: #28a745; 
-            --color-fondo: #f4f6f9; 
+            --color-principal: #17a2b8;
+            --color-secundario: #28a745;
+            --color-fondo: #f4f6f9;
             --color-texto: #333;
-            /* COLOR DE HOVER UNIFICADO: Teal más oscuro */
-            --color-nav-hover: #138496; 
+            --color-nav-hover: #138496;
             --color-card-bg: #ffffff;
             --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
             --sombra-boton: 0 2px 4px rgba(0, 0, 0, 0.2);
             --radius: 8px;
         }
 
-        /* ====================================================
-        FONDO DE PÁGINA CON REFERENCIA A LA MEDICINA
-        ==================================================== */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
             color: var(--color-texto);
-            line-height: 1.6;
-            
-            /* Fondo base blanco */
-            background-color: #ffffff; 
-            
-            /* Patrón de Cruces Sanitarias (SVG Data URI más visible) */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="%23c0c0c0" opacity="0.15" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
-            background-repeat: repeat;
+            background-color: #ffffff;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path fill="%23c0c0c0" opacity="0.15" d="M18 0h4v40h-4zM0 18h40v4H0z"/></svg>');
         }
 
-        /* ====================================================
-        ANIMACIONES 
-        ==================================================== */
-        @keyframes float-wave {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); } /* Se mueve 5px hacia arriba */
-            100% { transform: translateY(0); }
-        }
-
-        /* Animación de pulso para el texto (opcional) */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.01); opacity: 0.95; } 
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        /* Nuevo: Animación para la alerta de construcción (sutilmente intermitente) */
-        @keyframes flash-construction {
-            0%, 100% { background-color: #fff3cd; border-color: #ffeeba; }
-            50% { background-color: #ffeeba; border-color: #fff3cd; }
-        }
-
-        /* ====================================================
-        HEADER Y NAVEGACIÓN 
-        ==================================================== */
         header {
-            background-color: var(--color-principal); /* Aplicando Teal/Cian */
+            background-color: var(--color-principal);
             color: white;
             padding: 20px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            /* APLICACIÓN DE LA ANIMACIÓN AL HEADER COMPLETO */
-            animation: float-wave 4s infinite alternate ease-in-out; 
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            animation: pulse 4s infinite ease-in-out; 
+            box-shadow: 0 4px 8px rgba(0,0,0,.15);
         }
 
         nav {
-            background-color: #343a40; 
-            padding: 10px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #343a40;
             position: relative;
         }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s, transform 0.1s; 
-        }
-
-        nav ul li a:hover {
-            background-color: var(--color-nav-hover); /* Teal más oscuro */
-            transform: scale(1.05); 
-        }
-
-        /* Botón de Hamburguesa */
         .menu-toggle {
-            display: none; 
+            display: none;
             color: white;
             font-size: 1.5em;
             padding: 10px 20px;
@@ -128,334 +49,375 @@
             text-align: right;
         }
 
-        /* ====================================================
-        ALERTA DE CONSTRUCCIÓN (NUEVO)
-        ==================================================== */
-        .construction-alert {
-            background-color: #fff3cd; /* Amarillo suave de advertencia */
-            color: #856404; /* Texto marrón oscuro */
-            border: 1px solid #ffeeba;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 8px; 
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
             font-weight: bold;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            
-            /* Aplicar la animación sutil */
-            animation: flash-construction 5s infinite alternate ease-in-out;
         }
 
-        .construction-alert i {
-            margin-right: 10px;
-            color: #856404; 
+        nav ul li a:hover {
+            background-color: var(--color-nav-hover);
         }
 
-        /* ====================================================
-        CONTENIDO PRINCIPAL Y SECCIONES
-        ==================================================== */
         .container {
-            width: 90%; 
+            width: 90%;
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px 30px;
-            background-color: var(--color-card-bg);
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
             border-radius: var(--radius);
             box-shadow: var(--sombra-card);
         }
 
         h2 {
-            color: var(--color-principal); /* Teal/Cian */
-            border-bottom: 2px solid var(--color-principal); /* Teal/Cian */
+            color: var(--color-principal);
+            border-bottom: 2px solid var(--color-principal);
             padding-bottom: 10px;
-            margin-top: 30px;
-            font-size: 1.8em;
         }
 
-        .category-group {
-            margin-bottom: 30px;
+        .construction-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
         }
 
         .category-group h3 {
-            color: var(--color-secundario); /* Verde de Salud */
-            margin-top: 25px;
-            padding: 10px 15px;
-            /* Fondo de categoría con un verde suave */
-            background-color: #e6f5ea; 
+            background: #e6f5ea;
             border-left: 5px solid var(--color-secundario);
-            border-radius: 4px;
-            font-size: 1.3em;
+            padding: 10px;
+            color: var(--color-secundario);
         }
 
-        /* Mejoras en las Tarjetas */
         .manual-card {
             border: 1px solid #e0e0e0;
-            padding: 15px 20px;
-            margin-bottom: 10px;
+            padding: 15px;
             border-radius: var(--radius);
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--color-card-bg);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .manual-card:hover {
-            transform: translateY(-3px); 
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
-        }
-        
-        .manual-card h4 {
-            margin: 0;
-            color: var(--color-texto);
-            font-size: 1.1em;
-            flex-grow: 1; 
+            gap: 10px;
         }
 
-        /* Botón de descarga (Ahora Verde de Salud) */
         .download-button {
-            background-color: var(--color-secundario); /* Verde de Salud */
+            background-color: var(--color-secundario);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
+            border-radius: 30px;
             text-decoration: none;
-            border-radius: 50px; 
             font-weight: bold;
-            font-size: 0.9em;
-            transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
-            box-shadow: var(--sombra-boton);
             display: flex;
             align-items: center;
-            gap: 8px; 
+            gap: 8px;
         }
 
         .download-button:hover {
-            background-color: #1e7e34; /* Verde más oscuro */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
-            transform: translateY(-1px);
+            background-color: #1e7e34;
         }
 
-        /* ====================================================
-        FOOTER Y RESPONSIVIDAD 
-        ==================================================== */
         footer {
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
-            border-top: 1px solid #ddd;
-            font-size: 0.9em;
             color: #777;
+            font-size: 0.9em;
         }
 
-        /* Media Query para pantallas pequeñas (NAVEGACIÓN) */
+        /* ==========================
+           MEJORAS PARA MÓVILES
+        ========================== */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
             .menu-toggle {
-                display: block; 
-            }
-            nav ul {
-                flex-direction: column;
-                display: none; 
-                width: 100%;
-                padding-bottom: 10px;
-                position: absolute;
-                background-color: #343a40;
-                z-index: 10;
-            }
-            nav ul.active {
-                display: flex; 
-            }
-            nav ul li {
-                margin: 5px 0;
-                width: 100%;
-                text-align: left;
-            }
-            nav ul li a {
                 display: block;
-                padding: 10px 20px;
-                border-radius: 0;
             }
-            
-            .container {
-                width: 95%;
-                padding: 15px;
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background-color: #343a40;
             }
+
+            nav ul.active {
+                display: flex;
+            }
+
             .manual-card {
-                flex-direction: column; 
-                align-items: flex-start;
+                flex-direction: column;
+                align-items: stretch;
             }
-            .manual-card h4 {
-                margin-bottom: 10px;
-            }
+
             .download-button {
-                width: 100%;
-                justify-content: center; 
+                justify-content: center;
+                font-size: 1em;
+                padding: 14px;
+            }
+
+            header h1 {
+                font-size: 1.7em;
             }
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>Repositorio de Formatos y Formularios Oficiales</h1>
-        <p>Región Metropolitana DC</p>
-    </header>
-    
-    <nav>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        
-        <ul id="main-nav">
-   <li><a href="inicio.html"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
-        <li><a href="dengue.html" class="nav-active"><i class="fa-solid fa-mosquito"></i> Vigilancia de Dengue</a></li>
-        <li><a href="rendimiento.html"><i class="fa-solid fa-table-cells"></i> Rendimiento Médico</a></li>
-        <li><a href="instructivos.html"><i class="fa-solid fa-book-medical"></i> Instructivos</a></li>
-        <li><a href="formatos.html"><i class="fa-solid fa-file-invoice"></i> Formatos en Blanco</a></li>
-        <li><a href="solicitud_snvs.html"><i class="fa-solid fa-file-invoice"></i> Solicitud SNVS</a></li>
-        <li><a href="buzon.html"><i class="fa-solid fa-comments"></i> Quejas y Sugerencias</a></li>
-        </ul>
-    </nav>
+<header>
+    <h1>Repositorio de Formatos y Formularios Oficiales</h1>
+    <p>Región Metropolitana DC</p>
+</header>
 
-    <div class="container">
+<nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    <ul id="main-nav">
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="dengue.html">Dengue</a></li>
+        <li><a href="rendimiento.html">Rendimiento</a></li>
+        <li><a href="instructivos.html">Instructivos</a></li>
+        <li><a href="formatos.html">Formatos</a></li>
+        <li><a href="buzon.html">Buzón</a></li>
+    </ul>
+</nav>
 
-        <div class="construction-alert">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            ESTE SITIO ESTÁ EN CONSTRUCCIÓN. La información puede no estar completa o finalizada. ¡Disculpe las molestias!
-        </div>
-        <section id="lista-formatos">
-            <h2>Lista de Documentos Disponibles</h2>
-            <p>A continuación, puede descargar los formularios oficiales en blanco. Por favor, asegúrese de completar todos los campos requeridos antes de la entrega.</p>
-            
-            <div class="category-group">
-                <h3><i class="fa-solid fa-file-pdf"></i> Documentos en Formato (PDF)</h3>
+<div class="container">
 
-                <div class="manual-card">
-                    <h4>Formato AT2R Mensual</h4>
-                    <a href="AT2R.pdf" class="download-button" download aria-label="Descargar Formato de AT2r Mensual">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>Formulario de Enfermedades Transmisibles</h4>
-                    <a href="TRANSMISIBLES MES FORMATO PDF.pdf" class="download-button" download aria-label="Descargar Formulario de Enfermedades Transmisibles">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-                <div class="manual-card">
-                    <h4>Hoja de control</h4>
-                    <a href="CONTROL DE INFORMACION ENVIADA AL DEPTO.pdf" class="download-button" download aria-label="Descargar Hoja de control">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>CS2</h4>
-                    <a href="CS2.pdf" class="download-button" download aria-label="Descargar Formato CS2">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>Morbilidad</h4>
-                    <a href="FORMATO MORBILIDAD ACTUAL.pdf" class="download-button" download aria-label="Descargar Formato de Morbilidad">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>3.1</h4>
-                    <a href="FORMULARIO 3.1 ACTUALIZADO 2025.pdf" class="download-button" download aria-label="Descargar Formulario 3.1">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>Informe Mensual Nutrición</h4>
-                    <a href="INFORME MENSUAL NUTRICION.pdf" class="download-button" download aria-label="Descargar Informe Mensual Nutrición">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>ITS-2</h4>
-                    <a href="ITS-2.pdf" class="download-button" download aria-label="Descargar Formato ITS-2">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>RAB-05</h4>
-                    <a href="RAB 05.pdf" class="download-button" download aria-label="Descargar Formato RAB-05">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>SIAFI</h4>
-                    <a href="SIAFI.pdf" class="download-button" download aria-label="Descargar Formato SIAFI">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>TAMIZAJE VPH IVAA CITOLOGIAS</h4>
-                    <a href="TAMIZAJE VPH-IVAA-CITOLOGIAS.pdf" class="download-button" download aria-label="Descargar Formato TAMIZAJE VPH IVAA CITOLOGIAS">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>VOLUNTARIOS DE SALUD</h4>
-                    <a href="VOLUNTARIOS DE SALUD.pdf" class="download-button" download aria-label="Descargar Formato VOLUNTARIOS DE SALUD">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-
-                <div class="manual-card">
-                    <h4>Formato TB9 (Tuberculosis)</h4>
-                    <a href="TB-9.pdf" class="download-button" download aria-label="Descargar Formulario de TB9">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-            </div>
-
-            <div class="category-group">
-                <h3><i class="fa-solid fa-file-excel"></i> Plantillas Administrativas (XLSX)</h3>
-                <div class="manual-card">
-                    <h4>Plantilla de Registro de Activos de Información</h4>
-                    <a href="/archivos/registro-activos.xlsx" class="download-button" download aria-label="Descargar Plantilla de Registro de Activos de Información en formato XLSX">
-                        <i class="fa-solid fa-download"></i> Descargar
-                    </a>
-                </div>
-            </div>
-            
-            
-            <p style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px; font-size: 0.95em; color: #6c757d;">
-                Para reportar errores en los formatos o solicitar nuevos documentos, contacte con el Área de Gestión de la Información.
-            </p>
-
-        </section>
+    <div class="construction-alert">
+        ⚠️ ESTE SITIO ESTÁ EN CONSTRUCCIÓN
     </div>
 
-    <footer>
-        <p>© 2025 Área de Gestión de la Información (AGI) | Todos los derechos reservados.</p>
-    </footer>
+    <h2>Documentos Disponibles</h2>
 
-    <script>
-        // Función para manejar el menú de hamburguesa
-        function toggleMenu() {
-            const nav = document.getElementById('main-nav');
-            nav.classList.toggle('active');
-        }
-    </script>
+    <div class="category-group">
+        <h3>📄 Formularios PDF</h3>
+
+        <div class="manual-card">
+            <h4>Hoja de control</h4>
+            <a href="CONTROLDEINFORMACIONENBLANCOAGI.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>AT2R</h4>
+            <a href="AT2R(ACTUALIZADO2026)" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>HORA MEDICO</h4>
+            <a href="HORAMEDICO.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+ <div class="manual-card">
+    <h4>SINOVA-2_VAC_GE-2_INF-2_DESP-2</h4>
+    <a href="/downloads/3.SINOVA-2_VAC_GE-2_INF-2_DESP-2.zip"
+       class="download-button"
+       download>
+        <i class="fa-solid fa-download"></i> Descargar
+    </a>
+</div>
+
+<div class="manual-card">
+            <h4>VACUNACOVID-19(ACTUALIZADOAÑO2025)</h4>
+            <a href="VACUNACOVID-19(ACTUALIZADOAÑO2025).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+<div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (CONSOLIDADO) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOSACTUALIZADOSENBLANCO(CONSOLIDADO)ODONTOLOGIA2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (INDIVIDUAL) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOSACTUALIZADOSENBLANCO(INDIVIDUAL)ODONTOLOGIA2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+           <div class="manual-card">
+            <h4>FORMATOS ACTUALIZADOS EN BLANCO (INDIVIDUAL) ODONTOLOGIA 2025</h4>
+            <a href="FORMATOHORAODONTOLOGOPDF(ENBLANCO).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FormularioTB9</h4>
+            <a href="TB9MENSUAL.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FormularioTB3</h4>
+            <a href="FormularioTB3.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+<div class="manual-card">
+            <h4>MORBILIDAD2026</h4>
+            <a href="MORBILIDAD2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>VOLUNTARIOSDESALUDA</h4>
+            <a href="VOLUNTARIOSDESALUDAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>REHIDRATACIÓNORAL</h4>
+            <a href="REHIDRATACIÓNORALAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>CONSEJERIASDEFAMILIA</h4>
+            <a href="CONSEJERIASDEFAMILIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>CONSEJERIASDEFAMILIA</h4>
+            <a href="FORMATOTRANSMISIBLE(ACTUALIZADO2026).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>ZOONOSISAIMPRIMIR</h4>
+            <a href="ZOONOSISAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>REPORTEMENSUALITS</h4>
+            <a href="REPORTEMENSUALITS.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMATOCS-1CONSEJERIA </h4>
+            <a href="FORMATOCS-1CONSEJERIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>FORMATOCS-2CONSEJERIA </h4>
+            <a href="FORMATOCS-2CONSEJERIA.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FICHA DE MONITOREO MENSUAL.VIH </h4>
+            <a href="FICHADEMONITOREOMENSUAL.VIH.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+ <div class="manual-card">
+            <h4>DEFUNCIONES1</h4>
+            <a href="DEFUNCIONES1.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>FORMULARIO3.1</h4>
+            <a href="FORMULARIO3.1ACTUALIZADO2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+         <div class="manual-card">
+            <h4>SIAFI</h4>
+            <a href="SIAFIAIMPRIMIR.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+        <div class="manual-card">
+            <h4>VPH2026</h4>
+            <a href="VPH2026.xlsx" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>INFORMEDENUTRICIÓN(AÑO 2025)</h4>
+            <a href="INFORMEDENUTRICIÓN(AÑO 2025).pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+         <div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. MALARIA, CHAGAS Y OTROS) 2025</h4>
+            <a href="ACTIVIDADESENPROMOCIÓN(ENF.MALARIA,CHAGASYOTROS)2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+          <div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025</h4>
+            <a href="ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+<div class="manual-card">
+            <h4>ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025</h4>
+            <a href="ACTIVIDADES EN PROMOCIÓN (ENF. VECTORIALES) 2025.pdf" class="download-button" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-eye"></i> Ver
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2025 Área de Gestión de la Información (AGI)
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('main-nav').classList.toggle('active');
+    }
+</script>
 
 </body>
-
 </html>
+
+
 
 
 
